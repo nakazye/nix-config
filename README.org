@@ -82,18 +82,13 @@
     };
 #+end_src
 で設定。うまくいった！！！
-その後
-#+begin_src shell
-  ibus-setup
-#+end_src
-でanthyを設定
 
 #+begin_src shell
   sudo nixos-rebuild switch --flake .#wsl-nixos
 #+end_src
 を設定変更後実行すると問題なく諸々DLされた上で通るので、それでよさそう
 Powershell側で ~wsl --shutdown~ を叩いて再起動
-再起動後、 ~sudo fcitx5-configtool~ をnixos側で叩いて[[https://qiita.com/feles-ao42/items/fcb507dab03db5de067d][NIX OS入門]]の通りmozcを有効化( ~sudo~ つけないと起動しなかったので注意)
+再起動後、 ~ibus-setup~ をnixos側で叩いてanthyを設定
 
 *** 動作確認
 **** nixos-rebuild
