@@ -5,15 +5,14 @@
     };
   };
 
-
   fonts.packages = with pkgs; [
     hackgen-nf-font
-    nerdfonts
-    
+    nerdfonts    
   ];
 
-  
-
+  environment.systemPackages = with pkgs; [
+#    anthy
+  ];
   
   system.stateVersion = "24.11";
 }
