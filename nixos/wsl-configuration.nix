@@ -7,7 +7,8 @@
 
   fonts.packages = with pkgs; [
     hackgen-nf-font
-    nerdfonts    
+    nerdfonts
+    noto-fonts-color-emoji
   ];
 
   environment.systemPackages = with pkgs; [
