@@ -52,6 +52,7 @@
     chezmoi
     fd
     ripgrep
+    tree-sitter
     ghq
     peco
     emacs
