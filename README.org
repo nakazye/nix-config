@@ -60,35 +60,8 @@
 [[https://zenn.dev/tositada/books/1c1564531ec8fc][nixos入門: wslで使うnixos]]を参考に諸々設定
 
 **** 日本語入力
-[[https://qiita.com/feles-ao42/items/fcb507dab03db5de067d][NIX OS入門]]を見ると
-#+begin_src nix
-  i18n.inputMethod = {
-    enabled = "fcitx5";
-    enable = true;
-    fcitx5.addons = with pkgs; [
-      fcitx5-mozc
-      fcitx5-gtk
-    ];
-  };
-#+end_src
-をconfiguration.nixに追加で良いらしい
-→
-うまくいかなかった(fcitx5の設定でmozcが出てこない)ので
-#+begin_src nix
-    i18n.inputMethod = {
-      enable = true;
-      type = "ibus";
-      ibus.engines = with pkgs.ibus-engines; [ anthy ];
-    };
-#+end_src
-で設定。うまくいった！！！
-
-#+begin_src shell
-  sudo nixos-rebuild switch --flake .#wsl-nixos
-#+end_src
-を設定変更後実行すると問題なく諸々DLされた上で通るので、それでよさそう
-Powershell側で ~wsl --shutdown~ を叩いて再起動
-再起動後、 ~ibus-setup~ をnixos側で叩いてanthyを設定
+[[https://qiita.com/feles-ao42/items/fcb507dab03db5de067d][NIX OS入門]]をにも説明があるが、うまく動作せず(fcitx5がmozc認識してくれなかったり)
+結局、Emacsから直接mozc見るようにして、Emacsの中だけ日本語が使える様に設定
 
 *** 動作確認
 **** nixos-rebuild
