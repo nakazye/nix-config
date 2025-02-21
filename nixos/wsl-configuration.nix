@@ -14,6 +14,9 @@
   environment.systemPackages = with pkgs; [
 #    anthy
   ];
+
+  programs.zsh.enable = true;
+  users.defaultUserShell = pkgs.zsh;
   
   system.stateVersion = "24.11";
 }
