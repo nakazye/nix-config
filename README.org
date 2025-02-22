@@ -66,13 +66,13 @@
 *** 動作確認
 **** nixos-rebuild
 #+begin_src shell
-  sudo nixos-rebuild switch --flake .#wsl-nixos
+  sudo nixos-rebuild switch --flake /home/nixos/.local/share/nix-config#wsl-nixos
 #+end_src
 でエラー出ないこと
 
 **** homemanager
 #+begin_src shell
-  home-manager switch --flake .#nixos@wsl-nixos
+  home-manager switch --flake /home/nixos/.local/share/nix-config#nixos@wsl-nixos
 #+end_src
 でエラー出ないこと
 
