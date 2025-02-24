@@ -55,8 +55,9 @@
     tree-sitter
     ghq
     peco
-    emacs
     mozc
+    emacs
+    neovim
   ];
 
   # Enable home-manager and git
