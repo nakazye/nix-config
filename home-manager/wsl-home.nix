@@ -52,6 +52,7 @@
     cmake
     gcc
     libtool
+    unar
     chezmoi
     fd
     ripgrep
