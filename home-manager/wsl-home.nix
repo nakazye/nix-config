@@ -52,7 +52,6 @@
     cmake
     gcc
     libtool
-    git
     chezmoi
     fd
     ripgrep
@@ -63,6 +62,20 @@
     emacs
     neovim
   ];
+
+  programs.git = {
+    extraConfig = {
+      core = {
+        autocrlf = false;
+        filemode = false;
+        editor = "nvim";
+        sshCommand = "/mnt/c/Windows/System32/OpenSSH/ssh.exe";
+      };
+#      init = {
+#        defaultBranch = "main";
+#      };
+    };
+  };
 
   # Enable home-manager and git
   programs.home-manager.enable = true;
