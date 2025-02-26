@@ -61,6 +61,7 @@
     peco
     mozc
     emacs
+    vim
     neovim
   ];
 
