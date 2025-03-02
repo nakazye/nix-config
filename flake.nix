@@ -49,6 +49,18 @@
           }
         ];
       };
+      native-nixos = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = {inherit inputs outputs;};
+        modules = [
+          ./nixos/native-configuration.nix
+          nixos-wsl.nixosModules.default
+          {
+            system.stateVersion = "24.11";
+          }
+        ];
+      };
+
     };
 
     # Available through 'home-manager switch --flake .#nixos@wsl-nixos'
