@@ -60,6 +60,13 @@
           ./home-manager/wsl-home.nix
         ];
       };
+      "nakazye@native-nixos" = home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages.x86_64-linux;
+        extraSpecialArgs = {inherit inputs outputs;};
+        modules = [
+          ./home-manager/nixos-home.nix
+        ];
+      };
     };
   };
 }
