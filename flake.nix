@@ -49,11 +49,11 @@
           }
         ];
       };
-      native-nixos = nixpkgs.lib.nixosSystem {
+      hp-spectre = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = {inherit inputs outputs;};
         modules = [
-          ./nixos/native-configuration.nix
+          ./nixos/hp-spectre-configuration.nix
           nixos-wsl.nixosModules.default
           {
             system.stateVersion = "24.11";
@@ -72,7 +72,7 @@
           ./home-manager/wsl-home.nix
         ];
       };
-      "nakazye@native-nixos" = home-manager.lib.homeManagerConfiguration {
+      "nakazye@hp-spectre" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux;
         extraSpecialArgs = {inherit inputs outputs;};
         modules = [

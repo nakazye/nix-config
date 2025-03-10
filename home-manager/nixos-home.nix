@@ -63,7 +63,21 @@
     emacs
     vim
     neovim
+
+    alacritty
+    firefox
+    _1password-gui
+    _1password-cli
+    slack
   ];
+
+  i18n.inputMethod = {
+    enabled = "fcitx5";
+    fcitx5.addons = with pkgs; [
+      fcitx5-mozc
+      fcitx5-gtk
+    ];
+  };
 
   programs.git = {
     extraConfig = {
