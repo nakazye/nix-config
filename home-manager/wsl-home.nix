@@ -57,6 +57,7 @@
     ghq
     peco
     mozc
+    tree
     # Lang
     gnumake
     cmake
