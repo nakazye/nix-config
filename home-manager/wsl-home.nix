@@ -48,10 +48,7 @@
   # Add stuff for your user as you see fit:
   # programs.neovim.enable = true;
   home.packages = with pkgs; [
-    gnumake
-    cmake
-    gcc
-    libtool
+    # Tools
     unar
     chezmoi
     fd
@@ -60,6 +57,14 @@
     ghq
     peco
     mozc
+    # Lang
+    gnumake
+    cmake
+    gcc
+    libtool
+    jdk
+    python3
+    # App
     emacs
     vim
     neovim
