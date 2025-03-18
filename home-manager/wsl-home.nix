@@ -66,7 +66,12 @@
     jdk
     python3
     # App
-    emacs
+    (emacs.override {
+      withTreeSitter = true;
+      withNativeCompilation = true;
+      withXwidgets = true;
+      withPgtk = true;
+    })
     vim
     neovim
   ];
