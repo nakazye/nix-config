@@ -69,8 +69,9 @@
     (emacs.override {
       withTreeSitter = true;
       withNativeCompilation = true;
-      withXwidgets = true;
-      withPgtk = true;
+      # Windowsとのクリップボード連携がおかしくなるのでいったんコメントアウト
+#      withXwidgets = true;
+#      withPgtk = true;
     })
     vim
     neovim
