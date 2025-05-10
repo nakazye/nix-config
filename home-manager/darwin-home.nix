@@ -51,13 +51,11 @@
     chezmoi
     fd
     ripgrep
-    tree-sitter
     ghq
     peco
     emacs
     vim
     neovim
-
   ];
 
 
@@ -67,13 +65,19 @@
         autocrlf = false;
         filemode = false;
         editor = "nvim";
-#        sshCommand = "/mnt/c/Windows/System32/OpenSSH/ssh.exe";
       };
-#      init = {
-#        defaultBranch = "main";
-#      };
+      init = {
+        defaultBranch = "master";
+      };
+      ghq = {
+        root = "~/src";
+      };
     };
   };
+
+programs.neovim.plugins = [
+  pkgs.vimPlugins.nvim-treesitter
+];
 
   # Enable home-manager and git
   programs.home-manager.enable = true;

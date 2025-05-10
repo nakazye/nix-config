@@ -9,6 +9,7 @@
   system = {
     keyboard.enableKeyMapping = true;
     keyboard.remapCapsLockToControl = true;
+    defaults.NSGlobalDomain."com.apple.keyboard.fnState" = true; # fnキーを就職キーなしで
     defaults.trackpad.Clicking = true; # tap to click
     defaults.trackpad.TrackpadRightClick = true;
     defaults.CustomUserPreferences = {
