@@ -41,6 +41,9 @@
       "orion"
       "raycast"
       "alacritty"
+      # JetBrains
+      "intellij-idea"
+      "datagrip"
     ];
   };
 
