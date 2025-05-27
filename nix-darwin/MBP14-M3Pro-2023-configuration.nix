@@ -7,6 +7,7 @@
   };
 
   system = {
+    primaryUser = "nakazye";
     keyboard.enableKeyMapping = true;
     keyboard.remapCapsLockToControl = true;
     defaults.NSGlobalDomain."com.apple.keyboard.fnState" = true; # fnキーを就職キーなしで
@@ -46,7 +47,7 @@
   fonts = {
     packages = with pkgs; [
       hackgen-nf-font
-      nerdfonts
+      nerd-fonts.symbols-only
     ];
   };
 

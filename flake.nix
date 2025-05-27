@@ -4,13 +4,13 @@
   inputs = {
     nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
     
-    nix-darwin.url = "github:nix-darwin/nix-darwin/nix-darwin-24.11";
+    nix-darwin.url = "github:nix-darwin/nix-darwin/nix-darwin-25.05";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
 
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
-    home-manager.url = "github:nix-community/home-manager/release-24.11";
+    home-manager.url = "github:nix-community/home-manager/release-25.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
@@ -47,7 +47,7 @@
           ./nixos/wsl-configuration.nix
           nixos-wsl.nixosModules.default
           {
-            system.stateVersion = "24.11";
+            system.stateVersion = "25.05";
             wsl.enable = true;
           }
         ];
@@ -59,7 +59,7 @@
           ./nixos/hp-spectre-configuration.nix
           nixos-wsl.nixosModules.default
           {
-            system.stateVersion = "24.11";
+            system.stateVersion = "25.05";
           }
         ];
       };
