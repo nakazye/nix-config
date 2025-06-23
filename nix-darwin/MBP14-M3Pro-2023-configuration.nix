@@ -41,7 +41,6 @@
       "orion"
       "raycast"
       "alacritty"
-      "displaylink"
       # JetBrains
       "intellij-idea"
       "datagrip"
