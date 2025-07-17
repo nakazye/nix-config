@@ -7,7 +7,7 @@
 
   fonts.packages = with pkgs; [
     hackgen-nf-font
-    nerdfonts
+    nerd-fonts.symbols-only
     noto-fonts-color-emoji
   ];
 
