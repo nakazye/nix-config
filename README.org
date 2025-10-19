@@ -1,5 +1,28 @@
 * こんな感じで作っていったよログ
 
+** Mac環境
+*** 大事な点
+作業をする前に、terminalに対してFull Disk Accessの権限を付与すること
+https://github.com/DeterminateSystems/nix-installer/issues/888
+
+*** インストール操作
+#+begin_src shell
+  # determinate版をインストールするか最初に聞かれるのでnoを指定。その後、続行するか聞かれるのでYesを指定
+  curl -fsSL https://install.determinate.systems/nix | sh -s -- install
+  nix-shell -p git
+  # あとで設定入れたらsshに切り替えるが、まずはhttpsで
+  git clone https://github.com/nakazye/nix-config.git
+  exit
+  # Homebrewのインストール
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  # Unexpected files in /etc, aborting activationが出たら以下を実行
+  sudo mv /etc/zshrc /etc/zshrc.bk
+  sudo mv /etc/zprofile /etc/zprofile.bk
+  # 設定の読み込み
+  sudo nix run nix-darwin -- switch --flake ~/nix-config#privateMac
+  nix run home-manager -- switch --flake ~/nix-config#nakazye@privateMac
+#+end_src
+
 ** WSL環境
 *** powershell上での操作
 

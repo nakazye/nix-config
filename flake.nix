@@ -67,8 +67,8 @@
     };
 
     darwinConfigurations = {
-      MBP14-M3Pro-2023 = nix-darwin.lib.darwinSystem {
-        modules = [ ./nix-darwin/MBP14-M3Pro-2023-configuration.nix ];
+      privateMac = nix-darwin.lib.darwinSystem {
+        modules = [ ./nix-darwin/privateMac-configuration.nix ];
       };
     };
 
@@ -88,7 +88,7 @@
           ./home-manager/nixos-home.nix
         ];
       };
-      "nakazye@MBP14-M3Pro-2023" = home-manager.lib.homeManagerConfiguration {
+      "nakazye@privateMac" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.aarch64-darwin;
         extraSpecialArgs = {inherit inputs outputs;};
         modules = [

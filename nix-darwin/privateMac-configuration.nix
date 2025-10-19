@@ -20,14 +20,10 @@
     };
     defaults.dock.minimize-to-application = true;
     defaults.dock.persistent-apps = [
-      "/System/Applications/Launchpad.app"
-      "/Applications/1Password.app"
-      "/Applications/Orion.app"
-      "/Applications/Slack.app"
-      "/Applications/Alacritty.app"
-      "/Users/nakazye/Applications/Home Manager Apps/Emacs.app"
+      "/System/Applications/Apps.app"
     ];
   };
+  security.pam.services.sudo_local.touchIdAuth = true;
 
   homebrew = {
     enable = true;
@@ -37,12 +33,21 @@
     };
     casks = [
       "1password"
+      "atok"
+      "wezterm"
       "slack"
+      "discord"
       "orion"
       "raycast"
-      "alacritty"
+      "bettertouchtool"
+      "doll"
+      "jordanbaird-ice"
+      "parallels"
+      "alt-tab"
       # JetBrains
       "intellij-idea"
+      "pycharm"
+      "webstorm"
       "datagrip"
     ];
   };
