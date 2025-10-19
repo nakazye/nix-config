@@ -17,6 +17,18 @@
       "com.apple.inputmethod.Kotoeri" = {
         "JIMPrefLiveConversionKey" = false; # ライブ変換をオフ
       };
+      "com.apple.symbolichotkeys" = {
+      AppleSymbolicHotKeys = {
+        # Spotlight検索のCmd+Spaceを無効化
+        "64" = {
+          enabled = false;
+        };
+        # Finderの検索ウィンドウのCmd+Option+Spaceを無効化
+        "65" = {
+          enabled = false;
+        };
+    };
+  };
     };
     defaults.dock.minimize-to-application = true;
     defaults.dock.persistent-apps = [
