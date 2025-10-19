@@ -166,6 +166,12 @@
     '';
   };
 
+  programs.direnv = {
+    enable = true;
+    enableBashIntegration = true; # see note on other shells below
+    nix-direnv.enable = true;
+  };
+
 
   programs.git = {
     extraConfig = {
@@ -184,9 +190,9 @@
   };
 
 
-programs.neovim.plugins = [
-  pkgs.vimPlugins.nvim-treesitter
-];
+  programs.neovim.plugins = [
+    pkgs.vimPlugins.nvim-treesitter
+  ];
 
   # Enable home-manager and git
   programs.home-manager.enable = true;
