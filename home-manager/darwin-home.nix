@@ -54,7 +54,7 @@
     fd
     ripgrep
     ghq
-    peco
+    fzf
     emacs
     vim
     neovim
