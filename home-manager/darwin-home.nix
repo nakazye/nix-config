@@ -51,6 +51,7 @@
     glibtool
     unar
     chezmoi
+    tree
     fd
     ripgrep
     ghq
