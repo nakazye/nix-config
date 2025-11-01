@@ -58,6 +58,7 @@
     ghq
     fzf
     emacs
+    mozc
     vim
     neovim
   ];
