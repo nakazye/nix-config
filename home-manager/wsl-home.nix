@@ -61,6 +61,7 @@
     mozc
     vim
     neovim
+    claude-code
   ];
 
   programs.zsh = {
