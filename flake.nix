@@ -64,7 +64,7 @@
     homeConfigurations = {
       "nixos@wsl-nixos" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux;
-        extraSpecialArgs = {inherit inputs outputs;};
+        extraSpecialArgs = {inherit inputs outputs; isWSL = true;};
         modules = [
           ./home-manager/wsl-home.nix
         ];
