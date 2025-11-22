@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }:
+{ pkgs, lib, isWSL ? false, ... }:
 {
   imports = [
     ./zsh

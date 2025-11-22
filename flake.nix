@@ -71,7 +71,7 @@
       };
       "nakazye@privateMac" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.aarch64-darwin;
-        extraSpecialArgs = {inherit inputs outputs;};
+        extraSpecialArgs = {inherit inputs outputs; isWSL = false;};
         modules = [
           ./home-manager/darwin-home.nix
         ];
