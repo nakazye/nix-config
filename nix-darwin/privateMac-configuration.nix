@@ -54,7 +54,8 @@
       "bettertouchtool"
       "doll"
       "jordanbaird-ice"
-      "parallels"
+# エラー出るので、一旦普通に入れる方向で
+#      "parallels"
       "alt-tab"
       # JetBrains
       "intellij-idea"
