@@ -61,7 +61,6 @@
     casks = [
       "1password"
       "atok"
-      "wezterm"
       "slack"
       "discord"
       "orion"

@@ -1,18 +1,19 @@
 { pkgs, lib, isWSL ? false, ... }:
 {
   imports = [
-    ./zsh
-    ./unar
     ./chezmoi
-    ./tree
-    ./fd
-    ./ripgrep
-    ./ghq
-    ./fzf
-    ./emacs
-    ./vim
-    ./neovim
-    ./git
     ./claude-code
+    ./emacs
+    ./fd
+    ./fzf
+    ./ghq
+    ./git
+    ./neovim
+    ./ripgrep
+    ./tree
+    ./unar
+    ./vim
+  ] ++ lib.optionals (!isWSL) [ ./wezterm ] ++ [
+    ./zsh
   ];
 }

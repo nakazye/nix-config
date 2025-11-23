@@ -110,6 +110,8 @@ programs/
 └── zsh/           # Zshシェル設定
 ```
 
+**注意**: `home-manager/programs/default.nix`のimportsはアルファベット順で管理されています。
+
 **プラットフォーム別Home設定**
 - `home-manager/darwin-home.nix`: macOS固有パッケージ（cmake、glibtool）
 - `home-manager/wsl-home.nix`: Linux固有パッケージ（mozc）、systemd統合
