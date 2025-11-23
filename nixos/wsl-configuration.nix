@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }: {
+{ config, lib, pkgs, nixosVersion, ... }: {
   nix = {
     settings = {
       experimental-features = ["nix-command" "flakes"];
@@ -25,5 +25,5 @@
     XDG_STATE_HOME  = "$HOME/.local/state";
   };
   
-  system.stateVersion = "25.05";
+  system.stateVersion = nixosVersion;
 }

@@ -4,6 +4,7 @@
   lib,
   config,
   pkgs,
+  nixosVersion,
   ...
 }: {
   imports = [
@@ -46,6 +47,6 @@
   # Linuxのみで有効: Home Manager設定変更時にsystemdユーザーサービスを適切に再読み込み
   systemd.user.startServices = "sd-switch";
 
-  home.stateVersion = "25.05";
+  home.stateVersion = nixosVersion;
 
 }

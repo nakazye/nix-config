@@ -23,6 +23,7 @@
     ...
   } @ inputs: let
     inherit (self) outputs;
+    nixosVersion = "25.05";
     systems = [
       "aarch64-linux"
       "i686-linux"
@@ -38,40 +39,37 @@
     nixosModules = import ./modules/nixos;
     homeManagerModules = import ./modules/home-manager;
 
-    # Available through 'sudo nixos-rebuild switch --flake .#wsl-nixos'
     nixosConfigurations = {
       wsl-nixos = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        specialArgs = {inherit inputs outputs;};
+        specialArgs = {inherit inputs outputs nixosVersion;};
         modules = [
           ./nixos/wsl-configuration.nix
           nixos-wsl.nixosModules.default
           {
-            system.stateVersion = "25.05";
+            system.stateVersion = nixosVersion;
             wsl.enable = true;
           }
         ];
       };
     };
-
     darwinConfigurations = {
       privateMac = nix-darwin.lib.darwinSystem {
         modules = [ ./nix-darwin/privateMac-configuration.nix ];
       };
     };
 
-    # Available through 'home-manager switch --flake .#nixos@wsl-nixos'
     homeConfigurations = {
       "nixos@wsl-nixos" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux;
-        extraSpecialArgs = {inherit inputs outputs; isWSL = true;};
+        extraSpecialArgs = {inherit inputs outputs nixosVersion; isWSL = true;};
         modules = [
           ./home-manager/wsl-home.nix
         ];
       };
       "nakazye@privateMac" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.aarch64-darwin;
-        extraSpecialArgs = {inherit inputs outputs; isWSL = false;};
+        extraSpecialArgs = {inherit inputs outputs nixosVersion; isWSL = false;};
         modules = [
           ./home-manager/darwin-home.nix
         ];
