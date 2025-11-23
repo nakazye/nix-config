@@ -8,7 +8,7 @@
     ./fzf
     ./ghq
     ./git
-    ./neovim
+    ./nixvim
     ./ripgrep
     ./tree
     ./unar
