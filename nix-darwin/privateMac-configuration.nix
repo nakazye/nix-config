@@ -11,6 +11,8 @@
     keyboard.enableKeyMapping = true;
     keyboard.remapCapsLockToControl = true;
     defaults.NSGlobalDomain."com.apple.keyboard.fnState" = true; # fnキーを就職キーなしで
+    defaults.NSGlobalDomain.KeyRepeat = 1; # キーリピート間隔
+    defaults.NSGlobalDomain.InitialKeyRepeat = 11; # リピート開始遅延
     defaults.trackpad.Clicking = true; # tap to click
     defaults.trackpad.TrackpadRightClick = true;
     defaults.CustomUserPreferences = {
