@@ -8,12 +8,19 @@
 
   system = {
     primaryUser = "nakazye";
+    # キーボードマッピング変更機能を有効化（Caps Lock→Control変更に必要）
     keyboard.enableKeyMapping = true;
+    # Caps LockキーをControlキーにリマップ
     keyboard.remapCapsLockToControl = true;
-    defaults.NSGlobalDomain."com.apple.keyboard.fnState" = true; # fnキーを就職キーなしで
-    defaults.NSGlobalDomain.KeyRepeat = 1; # キーリピート間隔
-    defaults.NSGlobalDomain.InitialKeyRepeat = 11; # リピート開始遅延
-    defaults.trackpad.Clicking = true; # tap to click
+    # F1-F12キーをfnキーなしで直接使用可能に設定
+    defaults.NSGlobalDomain."com.apple.keyboard.fnState" = true;
+    # キーを長押しした時のリピート間隔（1が最速）
+    defaults.NSGlobalDomain.KeyRepeat = 1;
+    # キーを押してからリピートが始まるまでの遅延時間（数値が小さいほど早い）
+    defaults.NSGlobalDomain.InitialKeyRepeat = 11;
+    # トラックパッドのタップでクリック機能を有効化
+    defaults.trackpad.Clicking = true;
+    # トラックパッドの右クリック機能を有効化
     defaults.trackpad.TrackpadRightClick = true;
     defaults.CustomUserPreferences = {
       "com.apple.inputmethod.Kotoeri" = {
@@ -32,17 +39,23 @@
     };
   };
     };
+    # ウィンドウ最小化時にアプリケーションアイコンに収納
     defaults.dock.minimize-to-application = true;
+    # Dockに固定表示するアプリケーション
     defaults.dock.persistent-apps = [
       "/System/Applications/Apps.app"
     ];
   };
+  # sudoコマンド実行時にTouch IDによる指紋認証を有効化
   security.pam.services.sudo_local.touchIdAuth = true;
 
   homebrew = {
+    # Homebrewパッケージマネージャーを有効化
     enable = true;
     onActivation = {
+      # システム再構築時にHomebrew自体を自動更新
       autoUpdate = true;
+      # 設定にないアプリケーションを自動削除
       cleanup = "uninstall";
     };
     casks = [
@@ -81,6 +94,7 @@
     XDG_STATE_HOME  = "$HOME/.local/state";
   };
 
+  # 1PasswordのSSHエージェントを使用してSSH鍵を管理
   programs.ssh.extraConfig = ''
     Host *
       IdentityAgent "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
