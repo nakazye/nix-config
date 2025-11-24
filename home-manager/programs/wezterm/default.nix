@@ -1,6 +1,9 @@
 {pkgs, ...}: {
   programs.wezterm = {
     enable = true;
+    # シェル統合を無効化（他のターミナルでもロードされて遅延の原因になる）
+    enableZshIntegration = false;
+    enableBashIntegration = false;
     extraConfig = ''
       local wezterm = require 'wezterm'
       local config = wezterm.config_builder()
