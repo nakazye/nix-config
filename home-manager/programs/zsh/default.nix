@@ -35,16 +35,32 @@
       %(?.%F{green}.%F{blue})%(?!(*'-') <!(*;-;%)? <)%f "
       PROMPT2='[%n]> '
 
-      # VCS情報の設定
-      autoload -Uz vcs_info
+      # gitstatus初期化
       setopt prompt_subst
-      zstyle ':vcs_info:git:*' check-for-changes true
-      zstyle ':vcs_info:git:*' stagedstr "%F{yellow}!"
-      zstyle ':vcs_info:git:*' unstagedstr "%F{red}+"
-      zstyle ':vcs_info:*' formats "%F{green}%c%u[%b]%f"
-      zstyle ':vcs_info:*' actionformats '[%b|%a]'
-      precmd () { vcs_info }
-      RPROMPT=$RPROMPT'$'{vcs_info_msg_0_}
+      source ${pkgs.gitstatus}/share/gitstatus/gitstatus.plugin.zsh
+
+      # 既に起動していなければ起動（高速化オプション付き）
+      gitstatus_check 'MY' 2>/dev/null || gitstatus_start -s -1 -u -1 -d -1 'MY'
+
+      # Git情報をRPROMPTに表示する関数
+      function my_git_prompt() {
+        gitstatus_query 'MY' || return 1
+        local branch="''${VCS_STATUS_LOCAL_BRANCH:-@''${VCS_STATUS_COMMIT[1,8]}}"
+
+        # Git情報がない場合は表示しない
+        [[ "$branch" == "@" ]] && return 0
+
+        local git_status=""
+
+        # 変更がある場合
+        [[ $VCS_STATUS_HAS_STAGED    -ne 0 ]] && git_status+="%F{yellow}!%f"
+        [[ $VCS_STATUS_HAS_UNSTAGED  -ne 0 ]] && git_status+="%F{red}+%f"
+        [[ $VCS_STATUS_HAS_UNTRACKED -ne 0 ]] && git_status+="%F{blue}?%f"
+
+        echo "%F{green}''${git_status}[''${branch}]%f"
+      }
+
+      RPROMPT=$RPROMPT'$(my_git_prompt)'
 
       # もしかして機能のプロンプト
       SPROMPT="%F{red}%{$suggest%}(*'~'%)? < %B%r%b %F{red}? [Yes!(y), No!(n),a,e]:%f "

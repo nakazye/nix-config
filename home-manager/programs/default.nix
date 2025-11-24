@@ -9,6 +9,7 @@
     ./fzf
     ./ghq
     ./git
+    ./gitstatus
     ./nixvim
     ./ripgrep
     ./tree
