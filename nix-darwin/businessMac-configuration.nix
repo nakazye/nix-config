@@ -66,7 +66,7 @@ in
     defaults.dock.minimize-to-application = true;
     # Dockに固定表示するアプリケーション
     defaults.dock.persistent-apps = [
-      "/System/Applications/Apps.app"
+#      "/System/Applications/Apps.app"
     ];
   };
   # sudoコマンド実行時にTouch IDによる指紋認証を有効化
