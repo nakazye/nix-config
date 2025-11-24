@@ -11,7 +11,7 @@
     ./programs/default.nix
   ];
 
-  # DLPソフトウェアとの競合を避けるため、claude-codeを無効化
+  # セキュリティソフトがブロックするので、claude-codeを無効化
   disabledModules = [
     ./programs/claude-code
   ];
