@@ -54,6 +54,9 @@
       privateMac = nix-darwin.lib.darwinSystem {
         modules = [ ./nix-darwin/privateMac-configuration.nix ];
       };
+      businessMac = nix-darwin.lib.darwinSystem {
+        modules = [ ./nix-darwin/businessMac-configuration.nix ];
+      };
     };
 
     homeConfigurations = {
@@ -68,7 +71,14 @@
         pkgs = nixpkgs.legacyPackages.aarch64-darwin;
         extraSpecialArgs = {inherit inputs outputs nixosVersion; isWSL = false;};
         modules = [
-          ./home-manager/darwin-home.nix
+          ./home-manager/privateMac-home.nix
+        ];
+      };
+      "businessMac" = home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages.aarch64-darwin;
+        extraSpecialArgs = {inherit inputs outputs nixosVersion; isWSL = false;};
+        modules = [
+          ./home-manager/businessMac-home.nix
         ];
       };
     };
