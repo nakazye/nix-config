@@ -40,7 +40,10 @@
       source ${pkgs.gitstatus}/share/gitstatus/gitstatus.plugin.zsh
 
       # 既に起動していなければ起動（高速化オプション付き）
-      gitstatus_check 'MY' 2>/dev/null || gitstatus_start -s -1 -u -1 -d -1 'MY'
+      # -s 1 = staged files を1つ見つけたら停止
+      # -u 1 = unstaged files を1つ見つけたら停止
+      # -d 1 = untracked files を1つ見つけたら停止
+      gitstatus_check 'MY' 2>/dev/null || gitstatus_start -s 1 -u 1 -d 1 'MY'
 
       # Git情報をRPROMPTに表示する関数
       function my_git_prompt() {
@@ -52,7 +55,7 @@
 
         local git_status=""
 
-        # 変更がある場合
+        # 変更がある場合（コミット数もカウントしない）
         [[ $VCS_STATUS_HAS_STAGED    -ne 0 ]] && git_status+="%F{yellow}!%f"
         [[ $VCS_STATUS_HAS_UNSTAGED  -ne 0 ]] && git_status+="%F{red}+%f"
         [[ $VCS_STATUS_HAS_UNTRACKED -ne 0 ]] && git_status+="%F{blue}?%f"
@@ -110,7 +113,12 @@
     enableCompletion = true;
     completionInit = ''
       autoload -U compinit
-      compinit -d ~/.zcompdump
+      # 1日1回だけチェック（高速化）
+      if [[ -n ~/.zcompdump(#qN.mh+24) ]]; then
+        compinit -d ~/.zcompdump
+      else
+        compinit -C -d ~/.zcompdump
+      fi
 
       zstyle ':completion:*:default' menu select=2
       zstyle ':completion:*' verbose yes
