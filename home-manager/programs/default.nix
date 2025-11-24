@@ -3,6 +3,7 @@
   imports = [
     ./chezmoi
     ./claude-code
+    ./direnv
     ./emacs
     ./fd
     ./fzf
