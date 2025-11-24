@@ -39,6 +39,7 @@
 
   home.packages = with pkgs; [
     mozc
+    noto-fonts-color-emoji
   ];
 
   programs.home-manager.enable = true;
