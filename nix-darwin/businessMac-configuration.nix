@@ -99,7 +99,6 @@ in
       # プロジェクト特有
       "aws-vpn-client"
       "google-chrome"
-      "visual-studio-code"
     ];
   };
 
