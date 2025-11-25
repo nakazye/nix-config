@@ -38,7 +38,7 @@ in
     # F1-F12キーをfnキーなしで直接使用可能に設定
     defaults.NSGlobalDomain."com.apple.keyboard.fnState" = true;
     # キーを長押しした時のリピート間隔（1が最速）
-    defaults.NSGlobalDomain.KeyRepeat = 1;
+    defaults.NSGlobalDomain.KeyRepeat = 2;
     # キーを押してからリピートが始まるまでの遅延時間（数値が小さいほど早い）
     defaults.NSGlobalDomain.InitialKeyRepeat = 11;
     # トラックパッドのタップでクリック機能を有効化
