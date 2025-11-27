@@ -12,34 +12,28 @@
 #   ids.uids.nixbld = 351;
 #   ids.gids.nixbld = 4000;
 #
-{pkgs, ...}:
-let
+{pkgs, ...}: let
   # sudo実行時でも元のユーザー名を取得
   username = let
     sudoUser = builtins.getEnv "SUDO_USER";
     currentUser = builtins.getEnv "USER";
   in
-    if sudoUser != "" then sudoUser else currentUser;
-in
-{
-  imports = [ ./common.nix ];
+    if sudoUser != ""
+    then sudoUser
+    else currentUser;
+in {
+  imports = [./common.nix];
 
   system.primaryUser = username;
 
   homebrew.casks = [
     "atok"
-    "slack"
     "orion"
     "raycast"
     "bettertouchtool"
     "doll"
     "jordanbaird-ice"
     "alt-tab"
-    # JetBrains
-    "intellij-idea"
-    "pycharm"
-    "webstorm"
-    "datagrip"
     # プロジェクト特有
     "aws-vpn-client"
     "google-chrome"

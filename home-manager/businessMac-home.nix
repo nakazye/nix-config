@@ -11,9 +11,10 @@
     ./programs/default.nix
   ];
 
-  # セキュリティソフトがブロックするので、claude-codeを無効化
+  # businessMacでは無効化
   disabledModules = [
-    ./programs/claude-code
+    ./programs/claude-code # セキュリティソフトがブロック
+    ./programs/discord # 業務用マシンでは不要
   ];
 
   nixpkgs = {

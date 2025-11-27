@@ -1,4 +1,3 @@
-{ pkgs, ... }:
-{
-  home.packages = [ pkgs.vim ];
+{pkgs, ...}: {
+  home.packages = [pkgs.vim];
 }

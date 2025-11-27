@@ -1,4 +1,3 @@
-{ pkgs, ... }:
-{
-  home.packages = [ pkgs.emacs ];
+{pkgs, ...}: {
+  home.packages = [pkgs.emacs];
 }

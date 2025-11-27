@@ -11,6 +11,13 @@
     ./programs/default.nix
   ];
 
+  # WSLではGUIアプリ不要
+  disabledModules = [
+    ./programs/slack
+    ./programs/discord
+    ./programs/jetbrains
+  ];
+
   nixpkgs = {
     overlays = [
       outputs.overlays.additions
@@ -48,5 +55,4 @@
   systemd.user.startServices = "sd-switch";
 
   home.stateVersion = nixosVersion;
-
 }

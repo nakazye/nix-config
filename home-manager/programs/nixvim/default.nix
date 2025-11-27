@@ -1,8 +1,11 @@
-{ pkgs, lib, ... }:
 {
+  pkgs,
+  lib,
+  ...
+}: {
   programs.neovim = {
     enable = true;
-    
+
     extraLuaConfig = ''
       -- 文字コード設定
       vim.opt.encoding = 'utf-8'
@@ -88,7 +91,7 @@
       }
       vim.keymap.set('t', [[<ESC><ESC>]], [[<C-\><C-n>]], {remap = false})
     '';
-    
+
     plugins = with pkgs.vimPlugins; [
       nvim-treesitter.withAllGrammars
       telescope-nvim

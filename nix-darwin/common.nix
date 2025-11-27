@@ -1,6 +1,9 @@
 # macOS共通設定
-{pkgs, pkgs-unstable, ...}: {
-
+{
+  pkgs,
+  pkgs-unstable,
+  ...
+}: {
   nix = {
     settings = {
       experimental-features = ["nix-command" "flakes"];
@@ -67,17 +70,17 @@
   };
 
   environment.variables = rec {
-    XDG_CACHE_HOME  = "$HOME/.cache";
+    XDG_CACHE_HOME = "$HOME/.cache";
     XDG_CONFIG_HOME = "$HOME/.config";
-    XDG_DATA_HOME   = "$HOME/.local/share";
-    XDG_STATE_HOME  = "$HOME/.local/state";
+    XDG_DATA_HOME = "$HOME/.local/share";
+    XDG_STATE_HOME = "$HOME/.local/state";
   };
 
   # 1PasswordのSSHエージェントを使用してSSH鍵を管理
   programs.ssh.extraConfig = ''
     Host *
       IdentityAgent "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
-    '';
+  '';
 
   # 1Password CLI/GUI (unstableから最新版を取得)
   programs._1password = {
@@ -94,8 +97,9 @@
   time.timeZone = "Asia/Tokyo";
 
   nixpkgs.hostPlatform = "aarch64-darwin";
-  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (pkg.pname or (builtins.parseDrvName pkg.name).name) [
-    "1password"
-    "1password-cli"
-  ];
+  nixpkgs.config.allowUnfreePredicate = pkg:
+    builtins.elem (pkg.pname or (builtins.parseDrvName pkg.name).name) [
+      "1password"
+      "1password-cli"
+    ];
 }

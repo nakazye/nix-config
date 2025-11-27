@@ -15,12 +15,12 @@
   };
 
   outputs = {
-      self,
-      nixpkgs,
-      nixpkgs-unstable,
-      nixos-wsl,
-      nix-darwin,
-      home-manager,
+    self,
+    nixpkgs,
+    nixpkgs-unstable,
+    nixos-wsl,
+    nix-darwin,
+    home-manager,
     ...
   } @ inputs: let
     inherit (self) outputs;
@@ -55,40 +55,50 @@
     darwinConfigurations = let
       pkgs-unstable = import nixpkgs-unstable {
         system = "aarch64-darwin";
-        config.allowUnfreePredicate = pkg: builtins.elem (pkg.pname or (builtins.parseDrvName pkg.name).name) [
-          "1password"
-          "1password-cli"
-        ];
+        config.allowUnfreePredicate = pkg:
+          builtins.elem (pkg.pname or (builtins.parseDrvName pkg.name).name) [
+            "1password"
+            "1password-cli"
+          ];
       };
     in {
       privateMac = nix-darwin.lib.darwinSystem {
-        specialArgs = { inherit pkgs-unstable; };
-        modules = [ ./nix-darwin/privateMac-configuration.nix ];
+        specialArgs = {inherit pkgs-unstable;};
+        modules = [./nix-darwin/privateMac-configuration.nix];
       };
       businessMac = nix-darwin.lib.darwinSystem {
-        specialArgs = { inherit pkgs-unstable; };
-        modules = [ ./nix-darwin/businessMac-configuration.nix ];
+        specialArgs = {inherit pkgs-unstable;};
+        modules = [./nix-darwin/businessMac-configuration.nix];
       };
     };
 
     homeConfigurations = {
       "nixos@wsl-nixos" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux;
-        extraSpecialArgs = {inherit inputs outputs nixosVersion; isWSL = true;};
+        extraSpecialArgs = {
+          inherit inputs outputs nixosVersion;
+          isWSL = true;
+        };
         modules = [
           ./home-manager/wsl-home.nix
         ];
       };
       "nakazye@privateMac" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.aarch64-darwin;
-        extraSpecialArgs = {inherit inputs outputs nixosVersion; isWSL = false;};
+        extraSpecialArgs = {
+          inherit inputs outputs nixosVersion;
+          isWSL = false;
+        };
         modules = [
           ./home-manager/privateMac-home.nix
         ];
       };
       "businessMac" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.aarch64-darwin;
-        extraSpecialArgs = {inherit inputs outputs nixosVersion; isWSL = false;};
+        extraSpecialArgs = {
+          inherit inputs outputs nixosVersion;
+          isWSL = false;
+        };
         modules = [
           ./home-manager/businessMac-home.nix
         ];

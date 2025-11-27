@@ -1,4 +1,10 @@
-{ config, lib, pkgs, nixosVersion, ... }: {
+{
+  config,
+  lib,
+  pkgs,
+  nixosVersion,
+  ...
+}: {
   nix = {
     settings = {
       experimental-features = ["nix-command" "flakes"];
@@ -12,18 +18,18 @@
   ];
 
   environment.systemPackages = with pkgs; [
-#    anthy
+    #    anthy
   ];
 
   programs.zsh.enable = true;
   users.defaultUserShell = pkgs.zsh;
-  
+
   environment.sessionVariables = rec {
-    XDG_CACHE_HOME  = "$HOME/.cache";
+    XDG_CACHE_HOME = "$HOME/.cache";
     XDG_CONFIG_HOME = "$HOME/.config";
-    XDG_DATA_HOME   = "$HOME/.local/share";
-    XDG_STATE_HOME  = "$HOME/.local/state";
+    XDG_DATA_HOME = "$HOME/.local/share";
+    XDG_STATE_HOME = "$HOME/.local/state";
   };
-  
+
   system.stateVersion = nixosVersion;
 }

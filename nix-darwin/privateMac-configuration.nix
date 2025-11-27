@@ -1,5 +1,5 @@
 {pkgs, ...}: {
-  imports = [ ./common.nix ];
+  imports = [./common.nix];
 
   system.primaryUser = "nakazye";
 
@@ -10,8 +10,6 @@
 
   homebrew.casks = [
     "atok"
-    "slack"
-    "discord"
     "orion"
     "raycast"
     "bettertouchtool"
@@ -20,10 +18,5 @@
     # エラー出るので、一旦普通に入れる方向で
     # "parallels"
     "alt-tab"
-    # JetBrains
-    "intellij-idea"
-    "pycharm"
-    "webstorm"
-    "datagrip"
   ];
 }
