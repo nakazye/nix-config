@@ -8,7 +8,7 @@
 
 - **フレーク基盤**: `flake.nix`がシステム、Home Manager設定、および依存関係を一元管理
 - **マルチプラットフォーム対応**: ARM64 macOS (Darwin)、x86_64 NixOS on WSL
-- **Nixpkgs 25.05**: 安定版ブランチを統一使用
+- **Nixpkgs 25.05**: 安定版ブランチを統一使用（一部パッケージはnixpkgs-unstableから取得）
 - **統合Home Manager**: 全環境でのユーザーレベル設定管理
 - **モジュラー構造**: プラットフォーム固有設定と共有コンポーネント
 
@@ -85,6 +85,13 @@ nix flake update home-manager
 - `flake.nix`: システム、Home Manager、モジュール定義の中央管理
 - `flake.lock`: 再現可能なビルドのための依存関係固定
 
+### フレーク入力
+- `nixpkgs`: nixos-25.05（メイン）
+- `nixpkgs-unstable`: nixpkgs-unstable（1Password等の最新版が必要なパッケージ用）
+- `nix-darwin`: nix-darwin-25.05
+- `home-manager`: release-25.05
+- `nixos-wsl`: NixOS-WSL/main
+
 ### ディレクトリ構造
 ```
 nix-config/
@@ -96,10 +103,12 @@ nix-config/
 │   ├── businessMac-home.nix
 │   └── wsl-home.nix
 ├── nix-darwin/            # macOSシステム設定
+│   ├── common.nix         # macOS共通設定モジュール
 │   ├── privateMac-configuration.nix
 │   └── businessMac-configuration.nix
 ├── nixos/                 # NixOSシステム設定
-│   └── wsl-configuration.nix
+│   ├── wsl-configuration.nix
+│   └── wsl-hardware-configuration.nix
 ├── modules/               # 再利用可能モジュール（現在空）
 │   ├── home-manager/
 │   └── nixos/
@@ -111,20 +120,33 @@ nix-config/
 
 ### プラットフォーム固有システム設定
 
-**nix-darwin設定 (`nix-darwin/privateMac-configuration.nix`)**
+**nix-darwin共通設定 (`nix-darwin/common.nix`)**
+
+privateMacとbusinessMacで共有される設定：
 - キーボードマッピング（Caps Lock→Control、fnキー動作）
 - キーリピート設定の最適化
 - トラックパッド設定（タップクリック、右クリック）
-- Dock設定（最小化動作、固定アプリ）
+- Dock設定（最小化動作）
 - Touch ID sudo認証
-- 1Password SSH エージェント統合
-- Homebrew管理とcask自動インストール
+- 1Password CLI/GUI（nix-darwinモジュール、nixpkgs-unstableから取得）
+- 1Password SSHエージェント統合
+- Homebrew基本設定（有効化、自動更新、cleanup）
+- フォント（HackGen NF、Nerd Font Symbols）
+- XDG環境変数
+- Zsh有効化
+- タイムゾーン（Asia/Tokyo）
+
+**nix-darwin設定 (`nix-darwin/privateMac-configuration.nix`)**
+- `common.nix`をインポート
+- primaryUser: "nakazye"
+- Dock固定アプリ設定
+- 個人用Homebrew casks（discord等）
 
 **nix-darwin設定 (`nix-darwin/businessMac-configuration.nix`)**
-- privateMacと同様の基本設定（キーボード、トラックパッド、Touch ID等）
+- `common.nix`をインポート
 - 環境変数から動的にユーザー名を取得（`builtins.getEnv`使用）
 - カスタムnixbld UID/GID設定（企業環境での既存ID競合対応）
-- 業務用Homebrew casks（JetBrains IDEs、AWS VPN、Slack等）
+- 業務用Homebrew casks（AWS VPN、Google Chrome等）
 - **重要**: `--impure`フラグが必須
 
 **NixOS WSL設定 (`nixos/wsl-configuration.nix`)**
@@ -181,9 +203,17 @@ programs/
 
 **パッケージ管理戦略**
 - **主要ソース**: Nixpkgs 25.05安定版統一使用
-- **オーバーレイ**: カスタムパッケージと不安定版アクセス対応
-- **macOS統合**: プラットフォーム固有GUI用Homebrew
+- **nixpkgs-unstable**: 最新版が必要なパッケージ（1Password CLI/GUI）に使用
+- **オーバーレイ**: カスタムパッケージ対応
+- **macOS統合**: Nix管理できないGUIアプリ用にHomebrew cask使用
 - **フォント**: HackGen Nerd Font、シンボル専用Nerd Font
+- **unfreeパッケージ**: `allowUnfreePredicate`で1password、1password-cliを許可
+
+**1Password管理**
+- nix-darwinモジュール（`programs._1password`、`programs._1password-gui`）で管理
+- nixpkgs-unstableから最新版を取得（安定版では古いため）
+- `/Applications`への配置はnix-darwinモジュールが自動処理
+- SSHエージェント統合設定済み
 
 **開発環境統合**
 - **エディタ**: Emacs（日本語入力対応）、Neovim（Telescope、ToggleTerm統合）
@@ -193,7 +223,7 @@ programs/
 - **バージョン管理**: プラットフォーム対応Git設定
 - **環境管理**: direnv（nix-direnv統合、ログ抑制で高速化）
 - **ビルドツール**: gcc、gnumake、cmake、libtool、glibtool
-- **SSH**: 1Password SSH エージェント（macOS）
+- **SSH**: 1Password SSHエージェント（macOS）
 
 **XDG準拠**
 - XDG Base Directory Specification準拠の環境変数設定
@@ -201,16 +231,18 @@ programs/
 
 ## 重要な設定パターン
 
-- **統一バージョン管理**: Nixpkgs 25.05をすべての環境で使用
+- **統一バージョン管理**: Nixpkgs 25.05をすべての環境で使用（一部unstable）
+- **nix-darwin共通化**: `common.nix`でmacOS共通設定を集約、各マシン固有設定のみ分離
 - **プラットフォーム認識**: `isWSL`フラグによるmacOS/WSL環境の適切な設定分岐
 - **モジュラー設計**: 共有コンポーネントとプラットフォーム固有設定の分離
 - **条件付きインポート**: `lib.optionals`でプラットフォーム固有モジュールを制御
-- **1Password統合**: macOSでのSSH鍵管理の統合
+- **1Password統合**: nix-darwinモジュールによる管理、nixpkgs-unstableから最新版取得
 
 ## トラブルシューティング
 
 **フレーク関連**
 - Git追跡ファイルのみがフレークで利用可能（未追跡ファイルは無視される）
+- 新規ファイル追加時は `git add` でステージングが必要
 - `nix flake update`でロックファイル更新後は要システム再構築
 
 **Home Manager**
@@ -220,6 +252,11 @@ programs/
 **nix-darwin**
 - 25.05では `nix run nix-darwin` による呼び出しが推奨
 - MASアプリが毎回再インストールされる既知の問題あり
+
+**1Password関連**
+- 既存の1Password.appがある場合、再構築前に削除が必要：`sudo rm -rf /Applications/1Password.app`
+- unfreeパッケージのため`allowUnfreePredicate`設定が必須
+- nixpkgs安定版では古いバージョンのため、unstableから取得
 
 **businessMac固有の注意事項**
 - `builtins.getEnv`で環境変数を参照しているため、必ず`--impure`フラグが必要

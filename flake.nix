@@ -3,11 +3,12 @@
 
   inputs = {
     nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
-    
+
     nix-darwin.url = "github:nix-darwin/nix-darwin/nix-darwin-25.05";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
 
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
 
     home-manager.url = "github:nix-community/home-manager/release-25.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
@@ -16,6 +17,7 @@
   outputs = {
       self,
       nixpkgs,
+      nixpkgs-unstable,
       nixos-wsl,
       nix-darwin,
       home-manager,
@@ -50,11 +52,21 @@
         ];
       };
     };
-    darwinConfigurations = {
+    darwinConfigurations = let
+      pkgs-unstable = import nixpkgs-unstable {
+        system = "aarch64-darwin";
+        config.allowUnfreePredicate = pkg: builtins.elem (pkg.pname or (builtins.parseDrvName pkg.name).name) [
+          "1password"
+          "1password-cli"
+        ];
+      };
+    in {
       privateMac = nix-darwin.lib.darwinSystem {
+        specialArgs = { inherit pkgs-unstable; };
         modules = [ ./nix-darwin/privateMac-configuration.nix ];
       };
       businessMac = nix-darwin.lib.darwinSystem {
+        specialArgs = { inherit pkgs-unstable; };
         modules = [ ./nix-darwin/businessMac-configuration.nix ];
       };
     };
