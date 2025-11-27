@@ -89,12 +89,18 @@
         system = "aarch64-darwin";
         config.allowUnfree = true;
       };
+      # WSL用pkgs-unstable
+      pkgs-unstable-linux = import nixpkgs-unstable {
+        system = "x86_64-linux";
+        config.allowUnfree = true;
+      };
     in {
       "nixos@wsl-nixos" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux;
         extraSpecialArgs = {
           inherit inputs outputs nixosVersion;
           isWSL = true;
+          pkgs-unstable = pkgs-unstable-linux;
         };
         modules = [
           ./home-manager/wsl-home.nix

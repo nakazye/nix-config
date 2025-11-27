@@ -10,6 +10,7 @@
       ./chezmoi
       ./claude-code
       ./cmake
+      ./copilot
       ./direnv
       ./discord
       ./doll
