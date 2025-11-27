@@ -13,9 +13,15 @@
 
   # WSLではGUIアプリ不要
   disabledModules = [
-    ./programs/slack
+    ./programs/alt-tab
     ./programs/discord
+    ./programs/doll
+    ./programs/google-chrome
     ./programs/jetbrains
+    ./programs/jordanbaird-ice
+    ./programs/orion
+    ./programs/raycast
+    ./programs/slack
   ];
 
   nixpkgs = {

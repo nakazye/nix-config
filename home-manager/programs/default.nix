@@ -6,11 +6,13 @@
 }: {
   imports =
     [
+      ./alt-tab
       ./chezmoi
       ./claude-code
       ./cmake
       ./direnv
       ./discord
+      ./doll
       ./emacs
       ./fd
       ./fzf
@@ -20,9 +22,13 @@
       ./gitstatus
       ./glibtool
       ./gnumake
+      ./google-chrome
       ./jetbrains
+      ./jordanbaird-ice
       ./libtool
       ./nixvim
+      ./orion
+      ./raycast
       ./ripgrep
       ./slack
       ./tree

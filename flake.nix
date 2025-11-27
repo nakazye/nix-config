@@ -12,6 +12,10 @@
 
     home-manager.url = "github:nix-community/home-manager/release-25.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
+
+    # Homebrew casks as Nix packages (macOS only)
+    brew-nix.url = "github:BatteredBunny/brew-nix";
+    brew-nix.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = {
@@ -21,6 +25,7 @@
     nixos-wsl,
     nix-darwin,
     home-manager,
+    brew-nix,
     ...
   } @ inputs: let
     inherit (self) outputs;
@@ -72,7 +77,19 @@
       };
     };
 
-    homeConfigurations = {
+    homeConfigurations = let
+      # macOS用pkgs（brew-nix overlay適用）
+      pkgs-darwin = import nixpkgs {
+        system = "aarch64-darwin";
+        overlays = [brew-nix.overlays.default];
+        config.allowUnfree = true;
+      };
+      # nixpkgs-unstable（google-chrome等、brew-nixで問題があるパッケージ用）
+      pkgs-unstable-darwin = import nixpkgs-unstable {
+        system = "aarch64-darwin";
+        config.allowUnfree = true;
+      };
+    in {
       "nixos@wsl-nixos" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux;
         extraSpecialArgs = {
@@ -84,20 +101,22 @@
         ];
       };
       "nakazye@privateMac" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.aarch64-darwin;
+        pkgs = pkgs-darwin;
         extraSpecialArgs = {
           inherit inputs outputs nixosVersion;
           isWSL = false;
+          pkgs-unstable = pkgs-unstable-darwin;
         };
         modules = [
           ./home-manager/privateMac-home.nix
         ];
       };
       "businessMac" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.aarch64-darwin;
+        pkgs = pkgs-darwin;
         extraSpecialArgs = {
           inherit inputs outputs nixosVersion;
           isWSL = false;
+          pkgs-unstable = pkgs-unstable-darwin;
         };
         modules = [
           ./home-manager/businessMac-home.nix

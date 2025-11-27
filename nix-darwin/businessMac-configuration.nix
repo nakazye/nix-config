@@ -26,17 +26,11 @@ in {
 
   system.primaryUser = username;
 
+  # nixpkgsに存在しない/brew-nixで問題があるアプリはHomebrewで管理
   homebrew.casks = [
     "atok"
-    "orion"
-    "raycast"
-    "bettertouchtool"
-    "doll"
-    "jordanbaird-ice"
-    "alt-tab"
-    # プロジェクト特有
     "aws-vpn-client"
-    "google-chrome"
+    "bettertouchtool"
   ];
 
   # 企業環境での既存ID競合対応

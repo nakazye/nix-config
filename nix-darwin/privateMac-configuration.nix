@@ -8,15 +8,9 @@
     "/System/Applications/Apps.app"
   ];
 
+  # nixpkgsに存在しない/brew-nixで問題があるアプリはHomebrewで管理
   homebrew.casks = [
     "atok"
-    "orion"
-    "raycast"
     "bettertouchtool"
-    "doll"
-    "jordanbaird-ice"
-    # エラー出るので、一旦普通に入れる方向で
-    # "parallels"
-    "alt-tab"
   ];
 }
