@@ -35,69 +35,10 @@ https://github.com/DeterminateSystems/nix-installer/issues/888
   wsl -s NixOS
 #+end_src
 
-*** nixOS上での操作
-**** NixOSのUpdate
-#+begin_src shell
-  sudo nix-channel --update
-  sudo nixos-rebuild switch
-#+end_src
-
-**** テンプレートのダウンロード
-- 新規にnix-config作り直すので、テンプレダウンロード
-- flakesを使える様に
-
-#+begin_src shell
-  export NIX_CONFIG="experimental-features = nix-command flakes"
-  mkdir -p ~/.local/share/nix-config
-  cd ~/.local/share/nix-config
-  nix flake init -t github:misterio77/nix-starter-config#standard
-#+end_src
-
-**** ユーザ名/ホスト指定
-./home-manager/home.nixに対して
-#+begin_src nix
-    home = {
-      username = "your-username";
-      homeDirectory = "/home/your-username";
-    };
-#+end_src
-を
-#+begin_src nix
-    home = {
-      username = "nixos";
-      homeDirectory = "/home/nixos";
-    };
-#+end_src
-に変更
-
-#+begin_src nix
-  "your-username@your-hostname" = home-manager.lib.homeManagerConfiguration {
-#+end_src
-を
-#+begin_src nix
-  "nixos@wsl-nixos" = home-manager.lib.homeManagerConfiguration {
-#+end_src
-に変更
-
 **** その他もろもろ
 [[https://zenn.dev/tositada/books/1c1564531ec8fc][nixos入門: wslで使うnixos]]を参考に諸々設定
 
-**** 日本語入力
+**** WSLでの日本語入力
 [[https://qiita.com/feles-ao42/items/fcb507dab03db5de067d][NIX OS入門]]をにも説明があるが、うまく動作せず(fcitx5がmozc認識してくれなかったり)
 結局、Emacsから直接mozc見るようにして、Emacsの中だけ日本語が使える様に設定
 
-*** 動作確認
-**** nixos-rebuild
-#+begin_src shell
-  sudo nixos-rebuild switch --flake .#wsl-nixos
-#+end_src
-でエラー出ないこと
-
-**** homemanager
-#+begin_src shell
-  home-manager switch --flake .#nixos@wsl-nixos
-#+end_src
-でエラー出ないこと
-
-*** 現状
-設定を色々入れ込んでいくぞ！
