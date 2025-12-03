@@ -28,6 +28,7 @@ in {
 
   # nixpkgsに存在しない/brew-nixで問題があるアプリはHomebrewで管理
   homebrew.casks = [
+    "1password"
     "atok"
     "aws-vpn-client"
     "bettertouchtool"

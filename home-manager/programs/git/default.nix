@@ -6,7 +6,7 @@
 }: {
   programs.git = {
     enable = true;
-    extraConfig = {
+    settings = {
       core =
         {
           autocrlf = false;
