@@ -24,6 +24,7 @@
       ./glibtool
       ./gnumake
       ./google-chrome
+      ./homerow
       ./jetbrains
       ./jordanbaird-ice
       ./libtool
