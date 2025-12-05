@@ -53,6 +53,8 @@
     onActivation = {
       # システム再構築時にHomebrew自体を自動更新
       autoUpdate = true;
+      # システム再構築時にインストール済みパッケージを自動アップグレード
+      upgrade = true;
       # 設定にないアプリケーションを自動削除
       cleanup = "uninstall";
     };
