@@ -22,6 +22,7 @@
     ./programs/orion
     ./programs/raycast
     ./programs/slack
+    ./programs/voiceink
   ];
 
   nixpkgs = {

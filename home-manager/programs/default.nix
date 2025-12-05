@@ -36,6 +36,7 @@
       ./tree
       ./unar
       ./vim
+      ./voiceink
     ]
     ++ lib.optionals (systemType != "wsl") [./wezterm]
     ++ [
