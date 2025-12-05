@@ -1,7 +1,7 @@
 {
   pkgs,
   lib,
-  isWSL ? false,
+  systemType,
   ...
 }: {
   imports =
@@ -37,7 +37,7 @@
       ./unar
       ./vim
     ]
-    ++ lib.optionals (!isWSL) [./wezterm]
+    ++ lib.optionals (systemType != "wsl") [./wezterm]
     ++ [
       ./zsh
     ];

@@ -1,7 +1,7 @@
 {
   pkgs,
   lib,
-  isWSL ? false,
+  systemType,
   ...
 }: {
   programs.git = {
@@ -13,7 +13,7 @@
           filemode = false;
           editor = "nvim";
         }
-        // lib.optionalAttrs isWSL {
+        // lib.optionalAttrs (systemType == "wsl") {
           sshCommand = "/mnt/c/Windows/System32/OpenSSH/ssh.exe";
         };
       init = {

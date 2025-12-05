@@ -88,7 +88,7 @@
         pkgs = nixpkgs.legacyPackages.x86_64-linux;
         extraSpecialArgs = {
           inherit inputs outputs nixosVersion;
-          isWSL = true;
+          systemType = "wsl";
           pkgs-unstable = pkgs-unstable-linux;
         };
         modules = [
@@ -99,7 +99,7 @@
         pkgs = pkgs-darwin;
         extraSpecialArgs = {
           inherit inputs outputs nixosVersion;
-          isWSL = false;
+          systemType = "privateMac";
           pkgs-unstable = pkgs-unstable-darwin;
         };
         modules = [
@@ -110,7 +110,7 @@
         pkgs = pkgs-darwin;
         extraSpecialArgs = {
           inherit inputs outputs nixosVersion;
-          isWSL = false;
+          systemType = "businessMac";
           pkgs-unstable = pkgs-unstable-darwin;
         };
         modules = [
