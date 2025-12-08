@@ -29,6 +29,7 @@
       ./jordanbaird-ice
       ./libtool
       ./nixvim
+      ./notunes
       ./orion
       ./raycast
       ./ripgrep

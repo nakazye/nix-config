@@ -19,6 +19,7 @@
     ./programs/google-chrome
     ./programs/jetbrains
     ./programs/jordanbaird-ice
+    ./programs/notunes
     ./programs/orion
     ./programs/raycast
     ./programs/slack
