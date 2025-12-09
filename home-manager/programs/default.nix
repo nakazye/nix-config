@@ -7,6 +7,7 @@
   imports =
     [
       ./alt-tab
+      ./chawan
       ./chezmoi
       ./claude-code
       ./cmake
