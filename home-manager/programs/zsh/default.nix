@@ -30,8 +30,6 @@
       # 移動したディレクトリの記憶
       setopt auto_pushd
 
-      # エイリアスの補完
-      setopt complete_aliases
 
       # プロンプト指定
       PROMPT="
@@ -80,29 +78,32 @@
       bindkey "^N" history-beginning-search-forward-end
     '';
 
-    # エイリアス
-    shellAliases = lib.mkMerge [
-      {
-        # 共通エイリアス
-        du = "du -h";
-        df = "df -h";
-        vi = "nvim";
-        ec = "emacsclient -n";
-        rep = "cd $(ghq list -p | fzf -e)";
-      }
-      (lib.mkIf pkgs.stdenv.isDarwin {
-        # macOS用
-        ls = "ls -G";
-        ll = "ls -lG";
-        la = "ls -laG";
-      })
-      (lib.mkIf pkgs.stdenv.isLinux {
-        # Linux用
-        ls = "ls --color";
-        ll = "ls -l --color";
-        la = "ls -la --color";
-      })
-    ];
+    # abbreviation設定（入力時に展開され、履歴にも展開後のコマンドが残る）
+    zsh-abbr = {
+      enable = true;
+      abbreviations = lib.mkMerge [
+        {
+          # 共通abbreviation
+          du = "du -h";
+          df = "df -h";
+          vi = "nvim";
+          ec = "emacsclient -n";
+          rep = "cd $(ghq list -p | fzf -e)";
+        }
+        (lib.mkIf pkgs.stdenv.isDarwin {
+          # macOS用
+          ls = "ls -G";
+          ll = "ls -lG";
+          la = "ls -laG";
+        })
+        (lib.mkIf pkgs.stdenv.isLinux {
+          # Linux用
+          ls = "ls --color";
+          ll = "ls -l --color";
+          la = "ls -la --color";
+        })
+      ];
+    };
 
     # コマンド履歴設定
     history = {
