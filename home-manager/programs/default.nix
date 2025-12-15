@@ -15,6 +15,7 @@
       ./direnv
       ./discord
       ./doll
+      ./drawio
       ./emacs
       ./fd
       ./fzf
