@@ -15,6 +15,7 @@
     hackgen-nf-font
     nerd-fonts.symbols-only
     noto-fonts-color-emoji
+    noto-fonts-monochrome-emoji
   ];
 
   environment.systemPackages = with pkgs; [

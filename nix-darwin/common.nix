@@ -64,6 +64,7 @@
     packages = with pkgs; [
       hackgen-nf-font
       nerd-fonts.symbols-only
+      noto-fonts-monochrome-emoji
     ];
   };
 
