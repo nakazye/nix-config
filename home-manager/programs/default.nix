@@ -6,16 +6,10 @@
 }: {
   imports =
     [
-      ./alt-tab
-      ./chawan
       ./chezmoi
       ./claude-code
       ./cmake
-      ./copilot
       ./direnv
-      ./discord
-      ./doll
-      ./drawio
       ./emacs
       ./fd
       ./fzf
@@ -25,23 +19,31 @@
       ./gitstatus
       ./glibtool
       ./gnumake
+      ./libtool
+      ./nixvim
+      ./ripgrep
+      ./tree
+      ./unar
+      ./vim
+    ]
+    ++ lib.optionals (systemType != "wsl") [
+      ./alt-tab
+      ./chawan
+      ./copilot
+      ./discord
+      ./doll
+      ./drawio
       ./google-chrome
       ./homerow
       ./jetbrains
       ./jordanbaird-ice
-      ./libtool
-      ./nixvim
       ./notunes
       ./orion
       ./raycast
-      ./ripgrep
       ./slack
-      ./tree
-      ./unar
-      ./vim
       ./voiceink
+      ./wezterm
     ]
-    ++ lib.optionals (systemType != "wsl") [./wezterm]
     ++ [
       ./zsh
     ];
