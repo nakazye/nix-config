@@ -98,83 +98,55 @@ in {
     };
 
     # キーマップ設定
-    keymaps = [
-      # ESC連打でハイライト解除
-      {
-        mode = "n";
-        key = "<Esc><Esc>";
-        action = ":nohlsearch<CR><Esc>";
-      }
+    keymaps = let
       # インサートモードをEmacsライクに
-      {
+      emacsInsertKeys = {
+        "<C-d>" = "<Del>";
+        "<C-h>" = "<BS>";
+        "<C-a>" = "<Home>";
+        "<C-e>" = "<End>";
+        "<C-p>" = "<Up>";
+        "<C-n>" = "<Down>";
+        "<C-f>" = "<Right>";
+        "<C-b>" = "<Left>";
+      };
+    in
+      # ESC連打でハイライト解除
+      [
+        {
+          mode = "n";
+          key = "<Esc><Esc>";
+          action = ":nohlsearch<CR><Esc>";
+        }
+      ]
+      # Emacsキーバインド
+      ++ lib.mapAttrsToList (key: action: {
         mode = "i";
-        key = "<C-d>";
-        action = "<Del>";
+        inherit key action;
         options.noremap = true;
-      }
-      {
-        mode = "i";
-        key = "<C-h>";
-        action = "<BS>";
-        options.noremap = true;
-      }
-      {
-        mode = "i";
-        key = "<C-a>";
-        action = "<Home>";
-        options.noremap = true;
-      }
-      {
-        mode = "i";
-        key = "<C-e>";
-        action = "<End>";
-        options.noremap = true;
-      }
-      {
-        mode = "i";
-        key = "<C-p>";
-        action = "<Up>";
-        options.noremap = true;
-      }
-      {
-        mode = "i";
-        key = "<C-n>";
-        action = "<Down>";
-        options.noremap = true;
-      }
-      {
-        mode = "i";
-        key = "<C-f>";
-        action = "<Right>";
-        options.noremap = true;
-      }
-      {
-        mode = "i";
-        key = "<C-b>";
-        action = "<Left>";
-        options.noremap = true;
-      }
+      }) emacsInsertKeys
       # Telescope
-      {
-        mode = "n";
-        key = "<C-x>b";
-        action = "<cmd>Telescope buffers<cr>";
-        options.noremap = true;
-      }
-      {
-        mode = "n";
-        key = "<C-x><C-f>";
-        action = "<cmd>Telescope file_browser<cr>";
-        options.noremap = true;
-      }
-      # ToggleTerm: ターミナルからノーマルモードへ
-      {
-        mode = "t";
-        key = "<ESC><ESC>";
-        action = "<C-\\><C-n>";
-        options.noremap = true;
-      }
-    ];
+      ++ [
+        {
+          mode = "n";
+          key = "<C-x>b";
+          action = "<cmd>Telescope buffers<cr>";
+          options.noremap = true;
+        }
+        {
+          mode = "n";
+          key = "<C-x><C-f>";
+          action = "<cmd>Telescope file_browser<cr>";
+          options.noremap = true;
+        }
+        # ToggleTerm: ターミナルからノーマルモードへ
+        {
+          mode = "t";
+          key = "<ESC><ESC>";
+          action = "<C-\\><C-n>";
+          options.noremap = true;
+        }
+      ];
 
     # プラグイン設定
     plugins = {
