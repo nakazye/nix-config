@@ -181,6 +181,9 @@ in {
       # アイコン（Telescope等で使用）
       web-devicons.enable = true;
 
+      # キーバインドヘルプ表示
+      which-key.enable = true;
+
       # Treesitter
       treesitter = {
         enable = true;
