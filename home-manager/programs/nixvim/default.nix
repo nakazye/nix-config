@@ -6,6 +6,20 @@
   programs.nixvim = {
     enable = true;
 
+    # カラースキーム
+    colorscheme = "cosme";
+    extraPlugins = [
+      (pkgs.vimUtils.buildVimPlugin {
+        name = "cosme-vim";
+        src = pkgs.fetchFromGitHub {
+          owner = "beikome";
+          repo = "cosme.vim";
+          rev = "master";
+          hash = "sha256-ZKROIe/NEdTvdwzEN1e5V+ZIOhLws9jbSR74t7Hkugk=";
+        };
+      })
+    ];
+
     # 文字コード設定
     opts = {
       encoding = "utf-8";
