@@ -16,6 +16,10 @@
     # Homebrew casks as Nix packages (macOS only)
     brew-nix.url = "github:BatteredBunny/brew-nix";
     brew-nix.inputs.nixpkgs.follows = "nixpkgs";
+
+    # Nixvim - Neovim configuration in Nix
+    nixvim.url = "github:nix-community/nixvim/nixos-25.11";
+    nixvim.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = {
@@ -26,6 +30,7 @@
     nix-darwin,
     home-manager,
     brew-nix,
+    nixvim,
     ...
   } @ inputs: let
     inherit (self) outputs;
@@ -92,6 +97,7 @@
           pkgs-unstable = pkgs-unstable-linux;
         };
         modules = [
+          nixvim.homeModules.nixvim
           ./home-manager/wsl-home.nix
         ];
       };
@@ -103,6 +109,7 @@
           pkgs-unstable = pkgs-unstable-darwin;
         };
         modules = [
+          nixvim.homeModules.nixvim
           ./home-manager/privateMac-home.nix
         ];
       };
@@ -114,6 +121,7 @@
           pkgs-unstable = pkgs-unstable-darwin;
         };
         modules = [
+          nixvim.homeModules.nixvim
           ./home-manager/businessMac-home.nix
         ];
       };
