@@ -1,10 +1,27 @@
 {
   pkgs,
   lib,
+  systemType,
   ...
-}: {
+}: let
+  isWSL = systemType == "wsl";
+  isMac = systemType == "privateMac" || systemType == "businessMac";
+  isLinux = !isMac;
+in {
   programs.nixvim = {
     enable = true;
+
+    # クリップボード連携
+    clipboard = {
+      register = "unnamedplus";
+      providers = {
+        # Mac: pbcopy/pbpasteを使用（追加パッケージ不要）
+        # 通常Linux (X11): xclipを使用
+        xclip.enable = isLinux && !isWSL;
+        # WSL: WSLgのWayland対応でwl-copyを使用
+        wl-copy.enable = isWSL;
+      };
+    };
 
     # カラースキーム
     colorscheme = "cosme";
