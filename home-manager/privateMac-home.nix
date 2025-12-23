@@ -13,7 +13,6 @@
 
   # privateMacでは無効化（businessMac専用アプリ）
   disabledModules = [
-    ./programs/aws-vpn-client
     ./programs/google-chrome
   ];
 

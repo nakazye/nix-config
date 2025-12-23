@@ -8,7 +8,7 @@
 
 - **フレーク基盤**: `flake.nix`がシステム、Home Manager設定、および依存関係を一元管理
 - **マルチプラットフォーム対応**: ARM64 macOS (Darwin)、x86_64 NixOS on WSL
-- **Nixpkgs 25.05**: 安定版ブランチを統一使用（一部パッケージはnixpkgs-unstableから取得）
+- **Nixpkgs 25.11**: 安定版ブランチを統一使用（一部パッケージはnixpkgs-unstableから取得）
 - **統合Home Manager**: 全環境でのユーザーレベル設定管理
 - **モジュラー構造**: プラットフォーム固有設定と共有コンポーネント
 
@@ -26,7 +26,7 @@
 
 ### システム再構築
 
-**macOS Darwin (nix-darwin 25.05)**
+**macOS Darwin (nix-darwin 25.11)**
 ```bash
 # privateMac: フレーク指定でシステム再構築
 sudo nix run nix-darwin -- switch --flake ~/nix-config#privateMac
@@ -86,11 +86,13 @@ nix flake update home-manager
 - `flake.lock`: 再現可能なビルドのための依存関係固定
 
 ### フレーク入力
-- `nixpkgs`: nixos-25.05（メイン）
-- `nixpkgs-unstable`: nixpkgs-unstable（1Password等の最新版が必要なパッケージ用）
-- `nix-darwin`: nix-darwin-25.05
-- `home-manager`: release-25.05
+- `nixpkgs`: nixos-25.11（メイン）
+- `nixpkgs-unstable`: nixpkgs-unstable（google-chrome等の最新版が必要なパッケージ用）
+- `nix-darwin`: nix-darwin-25.11
+- `home-manager`: release-25.11
 - `nixos-wsl`: NixOS-WSL/main
+- `brew-nix`: Homebrew casksをNixパッケージとして提供
+- `nixvim`: Neovim設定をNixで管理（nixos-25.11）
 
 ### ディレクトリ構造
 ```
@@ -114,8 +116,12 @@ nix-config/
 │   └── nixos/
 ├── overlays/              # パッケージオーバーレイ
 │   └── default.nix
-└── pkgs/                  # カスタムパッケージ（現在空）
-    └── default.nix
+└── pkgs/                  # カスタムパッケージ
+    ├── default.nix
+    ├── node-composition.nix
+    ├── node-env.nix
+    ├── node-packages.json
+    └── node-packages.nix
 ```
 
 ### プラットフォーム固有システム設定
@@ -128,10 +134,9 @@ privateMacとbusinessMacで共有される設定：
 - トラックパッド設定（タップクリック、右クリック）
 - Dock設定（最小化動作）
 - Touch ID sudo認証
-- 1Password CLI/GUI（nix-darwinモジュール、nixpkgs-unstableから取得）
 - 1Password SSHエージェント統合
 - Homebrew基本設定（有効化、自動更新、cleanup）
-- フォント（HackGen NF、Nerd Font Symbols）
+- フォント（HackGen NF、Nerd Font Symbols、Noto Monochrome Emoji）
 - XDG環境変数
 - Zsh有効化
 - タイムゾーン（Asia/Tokyo）
@@ -140,31 +145,33 @@ privateMacとbusinessMacで共有される設定：
 - `common.nix`をインポート
 - primaryUser: "nakazye"
 - Dock固定アプリ設定
-- 個人用Homebrew casks（discord等）
+- Homebrew casks: 1password, atok, bettertouchtool
 
 **nix-darwin設定 (`nix-darwin/businessMac-configuration.nix`)**
 - `common.nix`をインポート
 - 環境変数から動的にユーザー名を取得（`builtins.getEnv`使用）
 - カスタムnixbld UID/GID設定（企業環境での既存ID競合対応）
-- 業務用Homebrew casks（AWS VPN、Google Chrome等）
+- Homebrew casks: 1password, atok, aws-vpn-client, bettertouchtool
 - **重要**: `--impure`フラグが必須
 
 **NixOS WSL設定 (`nixos/wsl-configuration.nix`)**
 - フレーク＆nixコマンド有効化
-- フォント設定（HackGen NF、Nerd Font Symbols、Noto Color Emoji）
+- フォント設定（HackGen NF、Nerd Font Symbols、Noto Color Emoji、Noto Monochrome Emoji）
 - Zshをデフォルトシェルに設定
 - XDG Base Directory環境変数設定
 
 ### Home Manager設定アーキテクチャ
 
 **共通プログラム設定 (`home-manager/programs/`)**
+
+全プラットフォーム共通:
 ```
 programs/
 ├── chezmoi/       # dotfiles管理
 ├── claude-code/   # Claude Code CLI設定
 ├── cmake/         # CMakeビルドツール
 ├── direnv/        # ディレクトリ単位の環境変数管理（nix-direnv統合）
-├── emacs/         # Emacs設定（日本語入力対応）
+├── emacs/         # Emacsパッケージ
 ├── fd/            # ファイル検索ツール
 ├── fzf/           # ファジーファインダー
 ├── gcc/           # GCCコンパイラ
@@ -174,23 +181,47 @@ programs/
 ├── glibtool/      # GNU libtool（macOS用）
 ├── gnumake/       # GNU Make
 ├── libtool/       # libtool
-├── nixvim/        # Neovim設定（Telescope、ToggleTerm統合）
+├── nixvim/        # Neovim設定（Telescope、ToggleTerm、which-key、treesitter、cosme.vim）
 ├── ripgrep/       # 高速grep
 ├── tree/          # ディレクトリツリー表示
 ├── unar/          # アーカイブ展開
 ├── vim/           # Vim設定
-├── wezterm/       # WezTermターミナル（macOS専用、WSLでは無効）
-└── zsh/           # Zshシェル設定
+└── zsh/           # Zshシェル設定（gitstatus統合、zsh-abbr）
+```
+
+macOS専用（systemType != "wsl"の場合のみ読み込み）:
+```
+programs/
+├── alt-tab/       # ウィンドウ切り替え（Alt-Tab代替）
+├── chawan/        # テキストブラウザ
+├── copilot/       # GitHub Copilot
+├── discord/       # Discord（privateMacのみ）
+├── doll/          # Doll
+├── drawio/        # draw.io（ダイアグラム作成）
+├── google-chrome/ # Google Chrome（businessMacのみ）
+├── homerow/       # キーボードナビゲーション
+├── jetbrains/     # JetBrains IDE
+├── jordanbaird-ice/ # メニューバー管理
+├── notunes/       # Apple Music無効化
+├── orion/         # Orionブラウザ
+├── raycast/       # Raycastランチャー
+├── slack/         # Slack
+├── voiceink/      # 音声入力
+└── wezterm/       # WezTermターミナル
 ```
 
 **注意**:
 - `home-manager/programs/default.nix`のimportsはアルファベット順で管理
-- weztermはWSL環境では`isWSL`フラグにより無効化
+- macOS専用プログラムは`systemType`による条件分岐で制御
+- 各Home設定で`disabledModules`を使用して特定プログラムを無効化可能
 
 **プラットフォーム別Home設定**
 - `home-manager/privateMac-home.nix`: 個人macOS用ホーム設定（ユーザー: nakazye）
-- `home-manager/businessMac-home.nix`: 業務macOS用ホーム設定（Claude Code無効化、環境変数依存で`--impure`必須）
+  - disabledModules: google-chrome（businessMac専用）
+- `home-manager/businessMac-home.nix`: 業務macOS用ホーム設定（環境変数依存で`--impure`必須）
+  - disabledModules: claude-code（セキュリティソフトがブロック）, discord
 - `home-manager/wsl-home.nix`: Linux固有パッケージ（mozc、noto-fonts-color-emoji）、systemd統合
+  - WSL用アプリはlib.optionalsで既に制御されているため、disabledModulesは補完的
 
 ### システム機能詳細
 
@@ -202,28 +233,28 @@ programs/
 - 入力：日本語入力（ライブ変換無効）、Spotlightショートカット無効化
 
 **パッケージ管理戦略**
-- **主要ソース**: Nixpkgs 25.05安定版統一使用
-- **nixpkgs-unstable**: 最新版が必要なパッケージ（1Password CLI/GUI）に使用
+- **主要ソース**: Nixpkgs 25.11安定版統一使用
+- **nixpkgs-unstable**: 最新版が必要なパッケージ（google-chrome等）に使用
+- **brew-nix**: Homebrew casksをNixパッケージとして提供（macOS GUIアプリ）
 - **オーバーレイ**: カスタムパッケージ対応
-- **macOS統合**: Nix管理できないGUIアプリ用にHomebrew cask使用
-- **フォント**: HackGen Nerd Font、シンボル専用Nerd Font
-- **unfreeパッケージ**: `allowUnfreePredicate`で1password、1password-cliを許可
+- **Homebrew casks**: brew-nixで問題があるアプリ用（1password, atok, bettertouchtool等）
+- **フォント**: HackGen Nerd Font、シンボル専用Nerd Font、Noto Monochrome Emoji
+- **unfreeパッケージ**: `allowUnfree = true`で全体許可
 
 **1Password管理**
-- nix-darwinモジュール（`programs._1password`、`programs._1password-gui`）で管理
-- nixpkgs-unstableから最新版を取得（安定版では古いため）
-- `/Applications`への配置はnix-darwinモジュールが自動処理
-- SSHエージェント統合設定済み
+- Homebrew caskで管理（nix-darwinの`homebrew.casks`）
+- SSHエージェント統合設定済み（`common.nix`）
 
 **開発環境統合**
-- **エディタ**: Emacs（日本語入力対応）、Neovim（Telescope、ToggleTerm統合）
-- **シェル**: Zsh（カスタム設定、gitstatus統合）
+- **エディタ**: Emacs、Neovim（nixvimで設定、Telescope、ToggleTerm、which-key、treesitter統合）
+- **シェル**: Zsh（カスタム設定、gitstatus統合、zsh-abbr）
 - **ターミナル**: WezTerm（macOS専用、HackGen Console NFフォント）
 - **検索・ナビゲーション**: fzf、ripgrep、fd、ghq統合
 - **バージョン管理**: プラットフォーム対応Git設定
 - **環境管理**: direnv（nix-direnv統合、ログ抑制で高速化）
 - **ビルドツール**: gcc、gnumake、cmake、libtool、glibtool
 - **SSH**: 1Password SSHエージェント（macOS）
+- **macOSユーティリティ**: Raycast、Alt-Tab、Homerow、Jordan Baird Ice等
 
 **XDG準拠**
 - XDG Base Directory Specification準拠の環境変数設定
@@ -231,12 +262,12 @@ programs/
 
 ## 重要な設定パターン
 
-- **統一バージョン管理**: Nixpkgs 25.05をすべての環境で使用（一部unstable）
+- **統一バージョン管理**: Nixpkgs 25.11をすべての環境で使用（一部unstable）
 - **nix-darwin共通化**: `common.nix`でmacOS共通設定を集約、各マシン固有設定のみ分離
-- **プラットフォーム認識**: `isWSL`フラグによるmacOS/WSL環境の適切な設定分岐
+- **プラットフォーム認識**: `systemType`変数によるmacOS/WSL環境の適切な設定分岐
 - **モジュラー設計**: 共有コンポーネントとプラットフォーム固有設定の分離
 - **条件付きインポート**: `lib.optionals`でプラットフォーム固有モジュールを制御
-- **1Password統合**: nix-darwinモジュールによる管理、nixpkgs-unstableから最新版取得
+- **1Password統合**: Homebrew caskによる管理、SSHエージェント設定は`common.nix`で定義
 
 ## トラブルシューティング
 
@@ -250,13 +281,13 @@ programs/
 - `--flake`フラグ必須（省略すると古いチャンネルベース動作）
 
 **nix-darwin**
-- 25.05では `nix run nix-darwin` による呼び出しが推奨
+- 25.11では `nix run nix-darwin` による呼び出しが推奨
 - MASアプリが毎回再インストールされる既知の問題あり
 
 **1Password関連**
+- Homebrew caskで管理（nix-darwinの`homebrew.casks`）
 - 既存の1Password.appがある場合、再構築前に削除が必要：`sudo rm -rf /Applications/1Password.app`
-- unfreeパッケージのため`allowUnfreePredicate`設定が必須
-- nixpkgs安定版では古いバージョンのため、unstableから取得
+- SSHエージェント統合は`common.nix`で設定済み
 
 **businessMac固有の注意事項**
 - `builtins.getEnv`で環境変数を参照しているため、必ず`--impure`フラグが必要
