@@ -1,3 +1,3 @@
-{pkgs, ...}: {
-  home.packages = [pkgs.claude-code];
+{pkgs-unstable, ...}: {
+  home.packages = [pkgs-unstable.claude-code];
 }
