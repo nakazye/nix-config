@@ -15,6 +15,9 @@
 
     # シェルオプション
     initContent = ''
+      # 標準エディタ（Emacsの軽量CLI起動）
+      export EDITOR="emacs -nw -Q -l ~/.config/emacs/cli-minimal-init.el"
+
       # ビープ音を鳴らさない
       setopt nolistbeep
 
