@@ -13,5 +13,6 @@
     "1password"
     "atok"
     "bettertouchtool"
+    "evernote"
   ];
 }
