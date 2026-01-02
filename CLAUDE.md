@@ -145,7 +145,7 @@ privateMacとbusinessMacで共有される設定：
 - `common.nix`をインポート
 - primaryUser: "nakazye"
 - Dock固定アプリ設定
-- Homebrew casks: 1password, atok, bettertouchtool
+- Homebrew casks: 1password, atok, bettertouchtool, evernote
 
 **nix-darwin設定 (`nix-darwin/businessMac-configuration.nix`)**
 - `common.nix`をインポート
@@ -193,6 +193,7 @@ macOS専用（systemType != "wsl"の場合のみ読み込み）:
 ```
 programs/
 ├── alt-tab/       # ウィンドウ切り替え（Alt-Tab代替）
+├── anki/          # フラッシュカード学習
 ├── chawan/        # テキストブラウザ
 ├── copilot/       # GitHub Copilot
 ├── discord/       # Discord（privateMacのみ）
@@ -221,7 +222,7 @@ programs/
 - `home-manager/businessMac-home.nix`: 業務macOS用ホーム設定（環境変数依存で`--impure`必須）
   - disabledModules: claude-code（セキュリティソフトがブロック）, discord
 - `home-manager/wsl-home.nix`: Linux固有パッケージ（mozc、noto-fonts-color-emoji）、systemd統合
-  - WSL用アプリはlib.optionalsで既に制御されているため、disabledModulesは補完的
+  - disabledModules: alt-tab, discord, doll, google-chrome, jetbrains, jordanbaird-ice, notunes, orion, raycast, slack, voiceink（WSLではGUIアプリ不要）
 
 ### システム機能詳細
 
