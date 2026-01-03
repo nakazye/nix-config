@@ -35,7 +35,21 @@ in {
           hash = "sha256-ZKROIe/NEdTvdwzEN1e5V+ZIOhLws9jbSR74t7Hkugk=";
         };
       })
+      (pkgs.vimUtils.buildVimPlugin {
+        name = "telescope-ghq-nvim";
+        src = pkgs.fetchFromGitHub {
+          owner = "nvim-telescope";
+          repo = "telescope-ghq.nvim";
+          rev = "master";
+          hash = "sha256-bOpgGxaSUN/+3DCm2+8G57y+miPmeMIuDQaO4Ugikf4=";
+        };
+      })
     ];
+
+    # telescope-ghq拡張のロード
+    extraConfigLua = ''
+      require('telescope').load_extension('ghq')
+    '';
 
     # 文字コード設定
     opts = {
@@ -124,33 +138,11 @@ in {
         mode = "i";
         inherit key action;
         options.noremap = true;
-      }) emacsInsertKeys
-      # Telescope
-      ++ [
-        {
-          mode = "n";
-          key = "<C-x>b";
-          action = "<cmd>Telescope buffers<cr>";
-          options.noremap = true;
-        }
-        {
-          mode = "n";
-          key = "<C-x><C-f>";
-          action = "<cmd>Telescope file_browser<cr>";
-          options.noremap = true;
-        }
-        # ToggleTerm: ターミナルからノーマルモードへ
-        {
-          mode = "t";
-          key = "<ESC><ESC>";
-          action = "<C-\\><C-n>";
-          options.noremap = true;
-        }
-      ];
+      }) emacsInsertKeys;
 
     # プラグイン設定
     plugins = {
-      # アイコン（Telescope等で使用）
+      # アイコン
       web-devicons.enable = true;
 
       # キーバインドヘルプ表示
@@ -164,16 +156,10 @@ in {
       # Telescope
       telescope = {
         enable = true;
-        extensions.file-browser.enable = true;
-        settings.defaults.mappings.i."<F1>" = "which_key";
-      };
-
-      # ToggleTerm
-      toggleterm = {
-        enable = true;
-        settings = {
-          open_mapping = "[[<c-t>]]";
-          direction = "float";
+        keymaps = {
+          "<C-x>b" = "buffers";
+          "<C-x><C-f>" = "find_files";
+          "<leader>gr" = "ghq list";
         };
       };
     };
