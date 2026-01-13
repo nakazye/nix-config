@@ -181,7 +181,7 @@ programs/
 ├── glibtool/      # GNU libtool（macOS用）
 ├── gnumake/       # GNU Make
 ├── libtool/       # libtool
-├── nixvim/        # Neovim設定（Telescope、ToggleTerm、which-key、treesitter、cosme.vim）
+├── nixvim/        # Neovim設定（Telescope、which-key、treesitter、cosme.vim、telescope-ghq）
 ├── ripgrep/       # 高速grep
 ├── tree/          # ディレクトリツリー表示
 ├── unar/          # アーカイブ展開
@@ -247,7 +247,7 @@ programs/
 - SSHエージェント統合設定済み（`common.nix`）
 
 **開発環境統合**
-- **エディタ**: Emacs、Neovim（nixvimで設定、Telescope、ToggleTerm、which-key、treesitter統合）
+- **エディタ**: Emacs、Neovim（nixvimで設定、Telescope、which-key、treesitter統合）
 - **シェル**: Zsh（カスタム設定、gitstatus統合、zsh-abbr）
 - **ターミナル**: WezTerm（macOS専用、HackGen Console NFフォント）
 - **検索・ナビゲーション**: fzf、ripgrep、fd、ghq統合
