@@ -27,6 +27,7 @@
       ./vim
     ]
     ++ lib.optionals (systemType != "wsl") [
+      ./aerospace
       ./alt-tab
       ./anki
       ./chawan
