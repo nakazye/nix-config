@@ -13,7 +13,6 @@
 
   # businessMacでは無効化
   disabledModules = [
-    ./programs/claude-code # セキュリティソフトがブロック
     ./programs/discord # 業務用マシンでは不要
   ];
 
