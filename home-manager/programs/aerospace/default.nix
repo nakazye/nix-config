@@ -8,11 +8,6 @@
     start-at-login = true
     on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 
-    # Swayライクな分割: ウィンドウサイズに応じて自動で水平/垂直を決定
-    # horizontal-first: 横長なら水平分割優先
-    # vertical-first: 縦長なら垂直分割優先
-    auto-split-direction = 'horizontal-first'
-
     [gaps]
     inner.horizontal = 10
     inner.vertical = 10
@@ -57,11 +52,7 @@
     ctrl-cmd-minus = 'resize smart -50'
     ctrl-cmd-equal = 'resize smart +50'
 
-    # Swayライク: 次のウィンドウの分割方向を事前指定
-    ctrl-cmd-v = 'split horizontal'  # 水平分割（横に並ぶ）
-    ctrl-cmd-s = 'split vertical'    # 垂直分割（縦に並ぶ）
-
-    # 分割方向を指定 (join-with)
+    # ウィンドウの結合 (join-with)
     ctrl-cmd-shift-down = 'join-with down'
     ctrl-cmd-shift-up = 'join-with up'
     ctrl-cmd-shift-left = 'join-with left'
