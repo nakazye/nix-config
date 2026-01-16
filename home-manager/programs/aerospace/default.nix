@@ -8,6 +8,9 @@
     start-at-login = true
     on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 
+    # 常に縦分割（ウィンドウが左右に並ぶ）
+    default-root-container-orientation = 'horizontal'
+
     [gaps]
     inner.horizontal = 10
     inner.vertical = 10
@@ -17,45 +20,40 @@
     outer.right = 10
 
     [mode.main.binding]
-    # ワークスペース切り替え (Ctrl+Cmd+数字)
-    ctrl-cmd-1 = 'workspace 1'
-    ctrl-cmd-2 = 'workspace 2'
-    ctrl-cmd-3 = 'workspace 3'
-    ctrl-cmd-4 = 'workspace 4'
-    ctrl-cmd-5 = 'workspace 5'
+    # Ctrl+Cmd+A でaerospaceモードに入る
+    ctrl-cmd-a = 'mode aerospace'
 
-    # ウィンドウをワークスペースに移動 (Ctrl+Cmd+Shift+数字)
-    ctrl-cmd-shift-1 = 'move-node-to-workspace 1'
-    ctrl-cmd-shift-2 = 'move-node-to-workspace 2'
-    ctrl-cmd-shift-3 = 'move-node-to-workspace 3'
-    ctrl-cmd-shift-4 = 'move-node-to-workspace 4'
-    ctrl-cmd-shift-5 = 'move-node-to-workspace 5'
+    [mode.aerospace.binding]
+    # フォーカス移動
+    h = 'focus left'
+    j = 'focus down'
+    k = 'focus up'
+    l = 'focus right'
 
-    # フォーカス移動 (Ctrl+Cmd+hjkl)
-    ctrl-cmd-h = 'focus left'
-    ctrl-cmd-j = 'focus down'
-    ctrl-cmd-k = 'focus up'
-    ctrl-cmd-l = 'focus right'
+    # ウィンドウ移動
+    shift-h = 'move left'
+    shift-j = 'move down'
+    shift-k = 'move up'
+    shift-l = 'move right'
 
-    # ウィンドウ移動 (Ctrl+Cmd+Shift+hjkl)
-    ctrl-cmd-shift-h = 'move left'
-    ctrl-cmd-shift-j = 'move down'
-    ctrl-cmd-shift-k = 'move up'
-    ctrl-cmd-shift-l = 'move right'
+    # ワークスペース切り替え
+    1 = 'workspace 1'
+    2 = 'workspace 2'
+    3 = 'workspace 3'
+    4 = 'workspace 4'
+    5 = 'workspace 5'
 
-    # レイアウト
-    ctrl-cmd-slash = 'layout tiles horizontal vertical'
-    ctrl-cmd-comma = 'layout accordion horizontal vertical'
-    ctrl-cmd-f = 'fullscreen'
+    # ウィンドウをワークスペースに移動
+    shift-1 = 'move-node-to-workspace 1'
+    shift-2 = 'move-node-to-workspace 2'
+    shift-3 = 'move-node-to-workspace 3'
+    shift-4 = 'move-node-to-workspace 4'
+    shift-5 = 'move-node-to-workspace 5'
 
-    # サイズ変更
-    ctrl-cmd-minus = 'resize smart -50'
-    ctrl-cmd-equal = 'resize smart +50'
+    # フルスクリーン
+    f = 'fullscreen'
 
-    # ウィンドウの結合 (join-with)
-    ctrl-cmd-shift-down = 'join-with down'
-    ctrl-cmd-shift-up = 'join-with up'
-    ctrl-cmd-shift-left = 'join-with left'
-    ctrl-cmd-shift-right = 'join-with right'
+    # モードを抜ける
+    esc = 'mode main'
   '';
 }
