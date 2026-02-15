@@ -78,7 +78,7 @@
         overlays = [brew-nix.overlays.default];
         config.allowUnfree = true;
       };
-      # nixpkgs-unstable（google-chrome等、brew-nixで問題があるパッケージ用）
+      # nixpkgs-unstable（claude-code等、最新版が必要なパッケージ用）
       pkgs-unstable-darwin = import nixpkgs-unstable {
         system = "aarch64-darwin";
         config.allowUnfree = true;

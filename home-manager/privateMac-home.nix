@@ -11,10 +11,6 @@
     ./programs/default.nix
   ];
 
-  # privateMacでは無効化（businessMac専用アプリ）
-  disabledModules = [
-    ./programs/google-chrome
-  ];
 
   nixpkgs = {
     overlays = [

@@ -7,8 +7,9 @@
   # You can change versions, add patches, set compilation flags, anything really.
   # https://nixos.wiki/wiki/Overlays
   modifications = final: prev: {
-    # example = prev.example.overrideAttrs (oldAttrs: rec {
-    # ...
-    # });
+    # inetutils 2.7 fails to build on macOS due to format hardening (nixpkgs#488689)
+    inetutils = prev.inetutils.overrideAttrs (oldAttrs: {
+      hardeningDisable = (oldAttrs.hardeningDisable or []) ++ ["format"];
+    });
   };
 }

@@ -34,7 +34,6 @@
       ./discord
       ./doll
       ./drawio
-      ./google-chrome
       ./homerow
       ./jetbrains
       ./jordanbaird-ice

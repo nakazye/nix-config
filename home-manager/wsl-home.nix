@@ -16,7 +16,6 @@
     ./programs/alt-tab
     ./programs/discord
     ./programs/doll
-    ./programs/google-chrome
     ./programs/jetbrains
     ./programs/jordanbaird-ice
     ./programs/notunes
