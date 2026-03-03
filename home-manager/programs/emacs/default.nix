@@ -1,3 +1,8 @@
 {pkgs, ...}: {
-  home.packages = [pkgs.emacs];
+  home.packages = [
+    (pkgs.emacs.override {
+      withImageMagick = true;
+    })
+    pkgs.imagemagick
+  ];
 }
