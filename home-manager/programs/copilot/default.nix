@@ -1,5 +1,3 @@
-{pkgs, ...}: let
-  nodePkgs = pkgs.callPackage ../../../pkgs/node-composition.nix {inherit pkgs;};
-in {
-  home.packages = [nodePkgs."@github/copilot"];
+{pkgs-unstable, ...}: {
+  home.packages = [pkgs-unstable.github-copilot-cli];
 }
