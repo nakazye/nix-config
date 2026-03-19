@@ -4,6 +4,25 @@
     settings = {
       experimental-features = ["nix-command" "flakes"];
     };
+    # 週1回（日曜3時）に古い世代を自動削除
+    gc = {
+      automatic = true;
+      interval = {
+        Weekday = 0;
+        Hour = 3;
+        Minute = 0;
+      };
+      options = "--delete-older-than 30d";
+    };
+    # 週1回（日曜4時）にストアの重複ファイルをハードリンク化
+    optimise = {
+      automatic = true;
+      interval = {
+        Weekday = 0;
+        Hour = 4;
+        Minute = 0;
+      };
+    };
   };
 
   system = {

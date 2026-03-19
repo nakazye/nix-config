@@ -9,6 +9,17 @@
     settings = {
       experimental-features = ["nix-command" "flakes"];
     };
+    # 週1回（日曜3時）に古い世代を自動削除
+    gc = {
+      automatic = true;
+      dates = "Sun 03:00";
+      options = "--delete-older-than 30d";
+    };
+    # 週1回（日曜4時）にストアの重複ファイルをハードリンク化
+    optimise = {
+      automatic = true;
+      dates = ["Sun 04:00"];
+    };
   };
 
   fonts.packages = with pkgs; [
