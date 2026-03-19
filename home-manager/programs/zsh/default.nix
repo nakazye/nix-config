@@ -2,6 +2,7 @@
   pkgs,
   lib,
   config,
+  systemType,
   ...
 }: {
   programs.zsh = {
@@ -93,6 +94,15 @@
           ec = "emacsclient -n";
           rep = "cd $(ghq list -p | fzf -e)";
         }
+        (lib.mkIf (systemType == "businessMac") {
+          nixswitch = "sudo darwin-rebuild switch --flake ~/nix-config#businessMac --impure && home-manager switch --flake ~/nix-config#businessMac --impure";
+        })
+        (lib.mkIf (systemType == "privateMac") {
+          nixswitch = "sudo darwin-rebuild switch --flake ~/nix-config#privateMac && home-manager switch --flake ~/nix-config#nakazye@privateMac";
+        })
+        (lib.mkIf (systemType == "wsl") {
+          nixswitch = "sudo nixos-rebuild switch --flake ~/nix-config#wsl-nixos && home-manager switch --flake ~/nix-config#nixos@wsl-nixos";
+        })
         (lib.mkIf pkgs.stdenv.isDarwin {
           # macOS用
           ls = "ls -G";
