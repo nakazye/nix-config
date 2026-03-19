@@ -22,6 +22,7 @@
       ./libtool
       ./nixvim
       ./ripgrep
+      ./tmux
       ./tree
       ./unar
       ./vim
