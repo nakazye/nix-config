@@ -31,6 +31,7 @@
       ./alt-tab
       ./claude-desktop
       ./anki
+      ./chatgpt
       ./chawan
       ./copilot
       ./discord
