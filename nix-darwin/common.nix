@@ -63,8 +63,13 @@
     stateVersion = 5;
   };
 
-  # sudoコマンド実行時にTouch IDによる指紋認証を有効化
-  security.pam.services.sudo_local.touchIdAuth = true;
+  # sudoコマンド実行時にTouch ID / Apple Watchによる認証を有効化
+  # reattach: tmuxやWezTermなどサードパーティターミナルからも認証できるようにする
+  security.pam.services.sudo_local = {
+    touchIdAuth = true;
+    watchIdAuth = true;
+    reattach = true;
+  };
 
   homebrew = {
     # Homebrewパッケージマネージャーを有効化
