@@ -16,6 +16,9 @@
         // lib.optionalAttrs (systemType == "wsl") {
           sshCommand = "/mnt/c/Windows/System32/OpenSSH/ssh.exe";
         };
+      user = {
+        useConfigOnly = true;
+      };
       init = {
         defaultBranch = "master";
       };
