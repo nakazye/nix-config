@@ -31,7 +31,7 @@ in {
     "1password"
     "atok"
     "aws-vpn-client"
-    "bettertouchtool"
+    "karabiner-elements"
   ];
 
   # 企業環境での既存ID競合対応

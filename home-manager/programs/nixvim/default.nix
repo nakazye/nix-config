@@ -138,7 +138,8 @@ in {
         mode = "i";
         inherit key action;
         options.noremap = true;
-      }) emacsInsertKeys;
+      })
+      emacsInsertKeys;
 
     # プラグイン設定
     plugins = {

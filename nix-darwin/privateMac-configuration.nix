@@ -12,7 +12,7 @@
   homebrew.casks = [
     "1password"
     "atok"
-    "bettertouchtool"
+    "karabiner-elements"
     "evernote"
   ];
 }

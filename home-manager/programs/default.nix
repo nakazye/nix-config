@@ -40,6 +40,7 @@
       ./homerow
       ./jetbrains
       ./jordanbaird-ice
+      ./karabiner-elements
       ./notunes
       ./orion
       ./raycast

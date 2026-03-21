@@ -11,7 +11,6 @@
     ./programs/default.nix
   ];
 
-
   nixpkgs = {
     overlays = [
       outputs.overlays.additions
