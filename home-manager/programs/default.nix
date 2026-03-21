@@ -29,6 +29,7 @@
     ]
     ++ lib.optionals (systemType != "wsl") [
       ./alt-tab
+      ./claude-desktop
       ./anki
       ./chawan
       ./copilot
