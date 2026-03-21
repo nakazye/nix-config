@@ -1,3 +1,3 @@
-{pkgs, ...}: {
-  home.packages = [pkgs.raycast];
+{pkgs-unstable, ...}: {
+  home.packages = [pkgs-unstable.raycast];
 }
