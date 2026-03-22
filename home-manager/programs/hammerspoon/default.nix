@@ -36,9 +36,8 @@
     end)
     tmuxHk:enable()
 
-    -- === Emacs用ホットキー（Emacsが前面の時のみ有効） ===
+    -- === Emacs用ホットキー（常時有効、内部でフロントアプリを確認） ===
 
-    local emacsHotkeys = {}
     local emacsPrefixes = {
       {mods={"ctrl"}, key="x"},
       {mods={"ctrl"}, key="c"},
@@ -48,15 +47,23 @@
     for _, p in ipairs(emacsPrefixes) do
       local mods, key = p.mods, p.key
       local hk = bindWithReentry(mods, key, function()
-        switchToABC()
+        local app = hs.application.frontmostApplication()
+        if app and app:bundleID() == "org.gnu.Emacs" then
+          switchToABC()
+        end
         hs.eventtap.keyStroke(mods, key)
       end)
-      table.insert(emacsHotkeys, hk)
+      hk:enable()
     end
 
-    -- === MS Office用ホットキー（Officeが前面の時のみ有効） ===
+    -- === MS Office用ホットキー（常時有効、内部でフロントアプリを確認） ===
 
-    local officeHotkeys = {}
+    local officeBundle = {
+      ["com.microsoft.Word"]       = true,
+      ["com.microsoft.Powerpoint"] = true,
+      ["com.microsoft.Excel"]      = true,
+    }
+
     local officeMappings = {
       {from="f", to="right",         toMods={}},
       {from="b", to="left",          toMods={}},
@@ -69,41 +76,17 @@
       {from="m", to="return",        toMods={}},
     }
     for _, m in ipairs(officeMappings) do
-      local toMods, to = m.toMods, m.to
-      local hk = hs.hotkey.new({"ctrl"}, m.from, function()
-        hs.eventtap.keyStroke(toMods, to)
+      local from, toMods, to = m.from, m.toMods, m.to
+      local hk = hs.hotkey.new({"ctrl"}, from, function()
+        local app = hs.application.frontmostApplication()
+        local bid = app and app:bundleID() or ""
+        if officeBundle[bid] then
+          hs.eventtap.keyStroke(toMods, to)
+        else
+          hs.eventtap.keyStroke({"ctrl"}, from)
+        end
       end)
-      table.insert(officeHotkeys, hk)
+      hk:enable()
     end
-
-    -- === アプリケーションウォッチャー ===
-
-    local officeBundle = {
-      ["com.microsoft.Word"]       = true,
-      ["com.microsoft.Powerpoint"] = true,
-      ["com.microsoft.Excel"]      = true,
-    }
-
-    local function onAppActivated(app)
-      local bid = app:bundleID() or ""
-      for _, hk in ipairs(emacsHotkeys)  do hk:disable() end
-      for _, hk in ipairs(officeHotkeys) do hk:disable() end
-      if bid == "org.gnu.Emacs" then
-        for _, hk in ipairs(emacsHotkeys)  do hk:enable() end
-      elseif officeBundle[bid] then
-        for _, hk in ipairs(officeHotkeys) do hk:enable() end
-      end
-    end
-
-    local appWatcher = hs.application.watcher.new(function(_, event, app)
-      if event == hs.application.watcher.activated then
-        onAppActivated(app)
-      end
-    end)
-    appWatcher:start()
-
-    -- 起動時に現在のフォアグラウンドアプリに対して初期化
-    local front = hs.application.frontmostApplication()
-    if front then onAppActivated(front) end
   '';
 }
