@@ -77,7 +77,7 @@
     }
     for _, m in ipairs(officeMappings) do
       local from, toMods, to = m.from, m.toMods, m.to
-      local hk = hs.hotkey.new({"ctrl"}, from, function()
+      local hk = bindWithReentry({"ctrl"}, from, function()
         local app = hs.application.frontmostApplication()
         local bid = app and app:bundleID() or ""
         if officeBundle[bid] then
