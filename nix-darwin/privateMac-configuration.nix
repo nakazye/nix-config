@@ -12,7 +12,7 @@
   homebrew.casks = [
     "1password"
     "atok"
-    "karabiner-elements"
+    "hammerspoon"
     "evernote"
   ];
 }
