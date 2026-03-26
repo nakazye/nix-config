@@ -36,7 +36,7 @@
     end)
     tmuxHk:enable()
 
-    -- === Emacs用ホットキー（常時有効、内部でフロントアプリを確認） ===
+    -- === Emacs用ホットキー（常時有効） ===
 
     local emacsPrefixes = {
       {mods={"ctrl"}, key="x"},
@@ -47,10 +47,7 @@
     for _, p in ipairs(emacsPrefixes) do
       local mods, key = p.mods, p.key
       local hk = bindWithReentry(mods, key, function()
-        local app = hs.application.frontmostApplication()
-        if app and app:bundleID() == "org.gnu.Emacs" then
-          switchToABC()
-        end
+        switchToABC()
         hs.eventtap.keyStroke(mods, key)
       end)
       hk:enable()
