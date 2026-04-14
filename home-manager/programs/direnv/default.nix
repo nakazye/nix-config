@@ -1,4 +1,4 @@
-{pkgs, ...}: {
+{lib, ...}: {
   programs.direnv = {
     enable = true;
     nix-direnv = {
@@ -16,4 +16,14 @@
       export DIRENV_LOG_FORMAT=""
     '';
   };
+
+  # direnv 2.37.1: macOSサンドボックスでfishテストがSIGKILLされるため
+  # overlays/default.nix で doCheck=false にしている（nixpkgs#475999）
+  # 新バージョンが出たら overlay を削除できるか確認すること
+  home.activation.direnvWorkaroundNotice = lib.hm.dag.entryAfter ["writeBoundary"] ''
+    echo ""
+    echo "NOTE: direnv は doCheck=false でビルドされています (fish test SIGKILL 回避)"
+    echo "      解消確認後は overlays/default.nix の direnv override を削除してください"
+    echo ""
+  '';
 }

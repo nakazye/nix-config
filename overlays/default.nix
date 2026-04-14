@@ -10,5 +10,11 @@
     # example = prev.example.overrideAttrs (oldAttrs: rec {
     # ...
     # });
+
+    # direnv: macOSサンドボックスでfishテストがSIGKILLされるためcheckPhaseをスキップ
+    # 追跡: https://github.com/nixos/nixpkgs/issues/475999
+    direnv = prev.direnv.overrideAttrs (_oldAttrs: {
+      doCheck = false;
+    });
   };
 }
