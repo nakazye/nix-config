@@ -9,6 +9,7 @@
       ./chezmoi
       ./claude-code
       ./cmake
+      ./coreutils
       ./direnv
       ./emacs
       ./fd
