@@ -27,6 +27,7 @@
       ./tree
       ./unar
       ./vim
+      ./vips
     ]
     ++ lib.optionals (systemType != "wsl") [
       ./alt-tab
