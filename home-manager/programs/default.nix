@@ -21,6 +21,7 @@
       ./glibtool
       ./gnumake
       ./libtool
+      ./markitdown
       ./nixvim
       ./ripgrep
       ./tmux
