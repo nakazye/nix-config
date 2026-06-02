@@ -4,13 +4,13 @@
   inputs = {
     nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
 
-    nix-darwin.url = "github:nix-darwin/nix-darwin/nix-darwin-25.11";
+    nix-darwin.url = "github:nix-darwin/nix-darwin/nix-darwin-26.05";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
 
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
 
-    home-manager.url = "github:nix-community/home-manager/release-25.11";
+    home-manager.url = "github:nix-community/home-manager/release-26.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     # Homebrew casks as Nix packages (macOS only)
@@ -18,7 +18,7 @@
     brew-nix.inputs.nixpkgs.follows = "nixpkgs";
 
     # Nixvim - Neovim configuration in Nix
-    nixvim.url = "github:nix-community/nixvim/nixos-25.11";
+    nixvim.url = "github:nix-community/nixvim/nixos-26.05";
     nixvim.inputs.nixpkgs.follows = "nixpkgs";
   };
 
@@ -34,7 +34,7 @@
     ...
   } @ inputs: let
     inherit (self) outputs;
-    nixosVersion = "25.11";
+    nixosVersion = "26.05";
     systems = [
       "x86_64-linux"
       "aarch64-darwin"
