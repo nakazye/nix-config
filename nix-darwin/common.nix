@@ -81,6 +81,8 @@
       upgrade = true;
       # 設定にないアプリケーションを自動削除
       cleanup = "uninstall";
+      # 新しいHomebrewでは--cleanupに--forceが必要
+      extraFlags = ["--force"];
     };
   };
 
