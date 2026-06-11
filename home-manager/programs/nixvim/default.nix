@@ -1,6 +1,7 @@
 {
   pkgs,
   lib,
+  inputs,
   systemType,
   ...
 }: let
@@ -10,6 +11,7 @@
 in {
   programs.nixvim = {
     enable = true;
+    nixpkgs.source = inputs.nixpkgs;
 
     # クリップボード連携
     clipboard = {
