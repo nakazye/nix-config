@@ -89,6 +89,7 @@
   fonts = {
     packages = with pkgs; [
       hackgen-nf-font
+      plemoljp-nf
       nerd-fonts.symbols-only
       noto-fonts-monochrome-emoji
     ];

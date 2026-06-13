@@ -24,6 +24,7 @@
 
   fonts.packages = with pkgs; [
     hackgen-nf-font
+    plemoljp-nf
     nerd-fonts.symbols-only
     noto-fonts-color-emoji
     noto-fonts-monochrome-emoji
