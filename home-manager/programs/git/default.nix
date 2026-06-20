@@ -12,10 +12,16 @@
           autocrlf = false;
           filemode = false;
           editor = "nvim";
+          ignorecase = false;
+          quotepath = false;
+          safecrlf = true;
         }
         // lib.optionalAttrs (systemType == "wsl") {
           sshCommand = "/mnt/c/Windows/System32/OpenSSH/ssh.exe";
         };
+      push = {
+        default = "simple";
+      };
       user = {
         useConfigOnly = true;
       };
