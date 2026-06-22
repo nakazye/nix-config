@@ -22,6 +22,7 @@
       ./gnumake
       ./libtool
       ./markitdown
+      ./mermaid-cli
       ./nixvim
       ./ripgrep
       ./tmux
