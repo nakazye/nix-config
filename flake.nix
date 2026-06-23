@@ -81,11 +81,13 @@
       # nixpkgs-unstable（claude-code等、最新版が必要なパッケージ用）
       pkgs-unstable-darwin = import nixpkgs-unstable {
         system = "aarch64-darwin";
+        overlays = [outputs.overlays.modifications];
         config.allowUnfree = true;
       };
       # WSL用pkgs-unstable
       pkgs-unstable-linux = import nixpkgs-unstable {
         system = "x86_64-linux";
+        overlays = [outputs.overlays.modifications];
         config.allowUnfree = true;
       };
     in {

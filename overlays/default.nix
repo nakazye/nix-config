@@ -16,5 +16,16 @@
     direnv = prev.direnv.overrideAttrs (_oldAttrs: {
       doCheck = false;
     });
+
+    # oletools: 会社のウイルススキャンが誤検知するためインストール禁止。
+    # top-level と全Pythonパッケージセットの両方で評価時にthrowさせる。
+    oletools = throw "oletools はインストール禁止です（会社のウイルススキャンが誤検知するため）。CLAUDE.md参照。";
+    pythonPackagesExtensions =
+      prev.pythonPackagesExtensions
+      ++ [
+        (_pyfinal: _pyprev: {
+          oletools = throw "oletools はインストール禁止です（会社のウイルススキャンが誤検知するため）。CLAUDE.md参照。";
+        })
+      ];
   };
 }

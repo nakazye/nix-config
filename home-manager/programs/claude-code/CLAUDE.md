@@ -24,6 +24,7 @@
 以下のパッケージはnixpkgs経由でインストールしない（会社のウィルススキャンが誤検知するため）:
 
 - `oletools`
+  - `nix run nixpkgs#oletools` / `nix shell nixpkgs#oletools` 等の一時利用も禁止
 
 ## 環境
 
