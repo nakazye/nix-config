@@ -40,6 +40,7 @@ nix-config/
 
 ```bash
 nix fmt                        # alejandrでフォーマット
+nix flake check                # 設定の評価・検証（再構築前の確認）
 nix flake update               # 全依存関係更新
 nix flake update home-manager  # 特定入力のみ更新
 ```

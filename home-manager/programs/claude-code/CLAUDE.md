@@ -1,37 +1,22 @@
 # ユーザー設定
 
-このファイルはすべてのClaude Codeセッションに適用されるユーザーレベルの設定です。
-
-## 作業スタイル
-
-- 既存のコードスタイルに従う
-- 要件が不明確な場合は、推測せず確認する
-
-## セキュリティ
-
-- 機密情報（APIキー、パスワード等）をコードに含めない
+すべての Claude Code セッションに適用されるユーザーレベル設定。
 
 ## Git
 
 - コミットメッセージは1行目50文字以内で要約
-- `Co-Authored-By` などのAI生成を示す署名は追加しない
-- SSH認証エラー（`Permission denied (publickey)`）が発生した場合:
-  1. 1PasswordのSSHエージェントが有効か確認を促す
-  2. リトライしていいか確認してから再実行する
+- `Co-Authored-By` などAI生成を示す署名は付けない
+- SSH認証エラー（`Permission denied (publickey)`）時:
+  1PasswordのSSHエージェント有効化を促し、確認を取ってから再実行
 
-## パッケージ制限
+## 環境（Nix管理）
 
-以下のパッケージはnixpkgs経由でインストールしない（会社のウィルススキャンが誤検知するため）:
+- 未インストールのツールは `nix run nixpkgs#<package>` で一時利用
+- ファイル削除に `rm` を使わない: macは `trash`、Linux/WSLは `trash-cli`
+- `find` の代わりに `fd`、`grep` の代わりに `rg`
+- **oletools は使用禁止**（会社のウイルススキャンが誤検知）。
+  overlay と PreToolUse フックで強制済み
 
-- `oletools`
-  - `nix run nixpkgs#oletools` / `nix shell nixpkgs#oletools` 等の一時利用も禁止
+## 作業スタイル
 
-## 環境
-
-- パッケージ管理: Nix
-  - インストールされていないツールは `nix run nixpkgs#<package>` で一時的に利用する
-- ファイル削除時は `rm` を使わない
-  - Mac: `trash` コマンド
-  - Linux（WSL含む）: `trash-cli`
-- ファイル検索は `find` の代わりに `fd` を使う
-- テキスト検索は `grep` の代わりに `rg` を使う
+- 要件が不明確なら推測せず確認する
