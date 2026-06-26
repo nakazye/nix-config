@@ -92,6 +92,7 @@
       plemoljp-nf
       nerd-fonts.symbols-only
       noto-fonts-monochrome-emoji
+      julia-mono # ⏺(U+23FA)等のメディア記号を等幅で持つ。claude-code-ideのvterm表示崩れ対策
     ];
   };
 
