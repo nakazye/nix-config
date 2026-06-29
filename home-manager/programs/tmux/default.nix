@@ -8,6 +8,9 @@
     escapeTime = 0;
     historyLimit = 10000;
     extraConfig = ''
+      set -s extended-keys on
+      set -as terminal-features '*:extkeys'
+
       # Emacsライクなpane操作 (C-x 0/1/2/3/o/b に対応)
       bind 0 kill-pane
       bind 1 break-pane
