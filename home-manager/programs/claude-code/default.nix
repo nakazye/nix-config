@@ -1,7 +1,16 @@
-{pkgs-unstable, ...}: {
+{
+  pkgs-unstable,
+  config,
+  ...
+}: {
   home.packages = [pkgs-unstable.claude-code];
 
   home.file.".claude/CLAUDE.md".source = ./CLAUDE.md;
+
+  # BASH_ENV経由でdirenvを非インタラクティブbashに自動適用（IDE拡張でも有効）
+  home.file.".config/claude/direnv.sh".text = ''
+    eval "$(direnv export bash 2>/dev/null)" || true
+  '';
 
   home.file.".claude/settings.json".text = builtins.toJSON {
     enabledPlugins = {
@@ -9,6 +18,9 @@
     };
     alwaysThinkingEnabled = true;
     prefersReducedMotion = true;
+    env = {
+      BASH_ENV = "${config.home.homeDirectory}/.config/claude/direnv.sh";
+    };
     permissions = {
       allow = [
         "Bash(iconv:*)"
