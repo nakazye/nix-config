@@ -42,6 +42,7 @@
       ./doll
       ./drawio
       ./homerow
+      ./jankyborders
       ./jetbrains
       ./jordanbaird-ice
       ./hammerspoon
