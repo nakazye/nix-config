@@ -53,31 +53,39 @@
       hk:enable()
     end
 
-    -- === MS Office用ホットキー（常時有効、内部でフロントアプリを確認） ===
+    -- === アプリ別キーリマップ（内部でフロントアプリを確認） ===
 
-    local officeBundle = {
-      ["com.microsoft.Word"]       = true,
-      ["com.microsoft.Powerpoint"] = true,
-      ["com.microsoft.Excel"]      = true,
-    }
+    -- 対象アプリのbundle IDリスト。複数リストを1つの集合にまとめる
+    local office  = {"com.microsoft.Word", "com.microsoft.Powerpoint", "com.microsoft.Excel"}
+    local raycast = {"com.raycast.macos"}
 
-    local officeMappings = {
-      {from="f", to="right",         toMods={}},
-      {from="b", to="left",          toMods={}},
-      {from="n", to="down",          toMods={}},
-      {from="p", to="up",            toMods={}},
-      {from="a", to="left",          toMods={"cmd"}},
-      {from="e", to="right",         toMods={"cmd"}},
-      {from="h", to="delete",        toMods={}},
-      {from="d", to="forwarddelete", toMods={}},
-      {from="m", to="return",        toMods={}},
+    local function bundleSet(...)
+      local set = {}
+      for _, list in ipairs({...}) do
+        for _, bid in ipairs(list) do set[bid] = true end
+      end
+      return set
+    end
+
+    -- apps: そのリマップを適用するアプリの集合。非対象アプリでは元のCtrl+キーを再送信
+    local mappings = {
+      {from="f", to="right",         toMods={},      apps=bundleSet(office)},
+      {from="b", to="left",          toMods={},      apps=bundleSet(office)},
+      {from="n", to="down",          toMods={},      apps=bundleSet(office)},
+      {from="p", to="up",            toMods={},      apps=bundleSet(office)},
+      {from="a", to="left",          toMods={"cmd"}, apps=bundleSet(office)},
+      {from="e", to="right",         toMods={"cmd"}, apps=bundleSet(office)},
+      {from="h", to="delete",        toMods={},      apps=bundleSet(office)},
+      {from="d", to="forwarddelete", toMods={},      apps=bundleSet(office)},
+      {from="m", to="return",        toMods={},      apps=bundleSet(office, raycast)},
+      {from="g", to="escape",        toMods={},      apps=bundleSet(raycast)},
     }
-    for _, m in ipairs(officeMappings) do
-      local from, toMods, to = m.from, m.toMods, m.to
+    for _, m in ipairs(mappings) do
+      local from, toMods, to, apps = m.from, m.toMods, m.to, m.apps
       local hk = bindWithReentry({"ctrl"}, from, function()
         local app = hs.application.frontmostApplication()
         local bid = app and app:bundleID() or ""
-        if officeBundle[bid] then
+        if apps[bid] then
           hs.eventtap.keyStroke(toMods, to)
         else
           hs.eventtap.keyStroke({"ctrl"}, from)
