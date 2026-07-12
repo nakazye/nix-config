@@ -19,6 +19,24 @@
       return hk
     end
 
+    -- 実際にキー入力を受けているアプリのbundle IDを返す。
+    -- RaycastはLSUIElement(メニューバー常駐)アプリで検索パネルが非アクティブ化
+    -- パネルのため、NSWorkspaceのfrontmostApplicationでは検出できない。
+    -- アクセシビリティのAXFocusedApplicationで判定し、失敗時はfrontmostにフォールバック。
+    local function frontBundleID()
+      local ok, sysWide = pcall(hs.axuielement.systemWideElement)
+      if ok and sysWide then
+        local focusedApp = sysWide:attributeValue("AXFocusedApplication")
+        if focusedApp then
+          local pid = focusedApp:pid()
+          local app = pid and hs.application.applicationForPID(pid)
+          if app then return app:bundleID() or "" end
+        end
+      end
+      local front = hs.application.frontmostApplication()
+      return front and front:bundleID() or ""
+    end
+
     -- === 常時有効なグローバルホットキー ===
 
     -- Cmd+Space: ABC切替してから再送信（IME off）
@@ -83,9 +101,7 @@
     for _, m in ipairs(mappings) do
       local from, toMods, to, apps = m.from, m.toMods, m.to, m.apps
       local hk = bindWithReentry({"ctrl"}, from, function()
-        local app = hs.application.frontmostApplication()
-        local bid = app and app:bundleID() or ""
-        if apps[bid] then
+        if apps[frontBundleID()] then
           hs.eventtap.keyStroke(toMods, to)
         else
           hs.eventtap.keyStroke({"ctrl"}, from)
