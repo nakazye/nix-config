@@ -37,10 +37,12 @@
       ./anki
       ./chatgpt
       ./chawan
+      ./cmux
       ./copilot
       ./discord
       ./doll
       ./drawio
+      ./ghostty
       ./homerow
       ./jankyborders
       ./jetbrains
