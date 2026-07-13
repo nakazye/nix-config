@@ -21,7 +21,13 @@
     browser = {
       defaultSearchEngine = "kagi";
     };
+    markdown = {
+      # NF版はConsole系のみ配布のため端末と同じフォントを使用
+      fontFamily = "PlemolJP Console NF";
+    };
     workspaceColors = {
+      selectionColor = "#e383a8"; # ララ（やわらかいピンク）
+      notificationBadgeColor = "#f06aaa"; # マイメロ（鮮やかなピンク）
       colors = {
         # Sanrio Night パレット由来（ワークスペース表示向けに暗めに調整）
         "ハローキティ"    = "#b02840"; # #f08080 → 暗
