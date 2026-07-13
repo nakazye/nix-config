@@ -25,6 +25,16 @@
       # NF版はConsole系のみ配布のため端末と同じフォントを使用
       fontFamily = "PlemolJP Console NF";
     };
+    shortcuts = {
+      bindings = {
+        # コピーモードのトグル（Emacs風チョード）。もう一度で解除
+        toggleTerminalCopyMode = ["ctrl+shift+c" "ctrl+shift+t"];
+        # Emacsのウィンドウ操作風（Ctrl+Shift+X 始動）
+        splitDown = ["ctrl+shift+x" "2"]; # C-x 2: 下に分割
+        splitRight = ["ctrl+shift+x" "3"]; # C-x 3: 右に分割
+        toggleSplitZoom = ["ctrl+shift+x" "1"]; # C-x 1: 最大化トグル（≒1つに集中）
+      };
+    };
     workspaceColors = {
       selectionColor = "#e383a8"; # ララ（やわらかいピンク）
       notificationBadgeColor = "#f06aaa"; # マイメロ（鮮やかなピンク）
