@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Sanrio dark theme (nix管理: home-manager/programs/mucommander/) -->
+<!-- 配色ベース: ~/.config/emacs/sanrio-theme-preview.html -->
+<theme>
+    <file_table>
+        <font family="PlemolJP Console NF,Menlo,Monospaced" size="13"/>
+        <border color="3a2432"/>
+        <inactive_border color="271a22"/>
+        <outline color="e383a8"/>
+        <inactive_outline color="8a7082"/>
+        <normal>
+            <background color="1b1118"/>
+            <inactive_background color="1b1118"/>
+        </normal>
+        <selected>
+            <background color="8a5070"/>
+            <secondary_background color="8a5070"/>
+            <inactive_background color="3a2432"/>
+            <inactive_secondary_background color="3a2432"/>
+        </selected>
+        <alternate>
+            <background color="271a22"/>
+            <inactive_background color="271a22"/>
+        </alternate>
+        <unmatched>
+            <foreground color="8a7082"/>
+            <background color="1b1118"/>
+        </unmatched>
+        <hidden>
+            <normal>
+                <foreground color="c8a4bc"/>
+                <inactive_foreground color="c8a4bc"/>
+            </normal>
+            <selected>
+                <foreground color="fff0f5"/>
+                <inactive_foreground color="fff0f5"/>
+            </selected>
+        </hidden>
+        <folder>
+            <normal>
+                <foreground color="e383a8"/>
+                <inactive_foreground color="e383a8"/>
+            </normal>
+            <selected>
+                <foreground color="fff0f5"/>
+                <inactive_foreground color="fff0f5"/>
+            </selected>
+        </folder>
+        <archive>
+            <normal>
+                <foreground color="efc128"/>
+                <inactive_foreground color="efc128"/>
+            </normal>
+            <selected>
+                <foreground color="fff0f5"/>
+                <inactive_foreground color="fff0f5"/>
+            </selected>
+        </archive>
+        <symlink>
+            <normal>
+                <foreground color="8bd0dd"/>
+                <inactive_foreground color="8bd0dd"/>
+            </normal>
+            <selected>
+                <foreground color="fff0f5"/>
+                <inactive_foreground color="fff0f5"/>
+            </selected>
+        </symlink>
+        <read_only>
+            <normal>
+                <foreground color="efa42b"/>
+                <inactive_foreground color="efa42b"/>
+            </normal>
+            <selected>
+                <foreground color="fff0f5"/>
+                <inactive_foreground color="fff0f5"/>
+            </selected>
+        </read_only>
+        <marked>
+            <normal>
+                <foreground color="f06aaa"/>
+                <inactive_foreground color="f06aaa"/>
+            </normal>
+            <selected>
+                <foreground color="fff0f5"/>
+                <inactive_foreground color="fff0f5"/>
+            </selected>
+        </marked>
+        <file>
+            <normal>
+                <foreground color="f9e9f2"/>
+                <inactive_foreground color="f9e9f2"/>
+            </normal>
+            <selected>
+                <foreground color="fff0f5"/>
+                <inactive_foreground color="fff0f5"/>
+            </selected>
+        </file>
+    </file_table>
+    <shell>
+        <font family="PlemolJP Console NF,Menlo,Monospaced" size="13"/>
+        <normal>
+            <foreground color="91dea9"/>
+            <background color="1b1118"/>
+        </normal>
+        <selected>
+            <foreground color="1b1118"/>
+            <background color="91dea9"/>
+        </selected>
+    </shell>
+    <editor>
+        <font family="PlemolJP Console NF,Menlo,Monospaced" size="13"/>
+        <normal>
+            <foreground color="f9e9f2"/>
+            <background color="1b1118"/>
+        </normal>
+        <selected>
+            <foreground color="fff0f5"/>
+            <background color="8a5070"/>
+        </selected>
+    </editor>
+    <location_bar>
+        <font family="PlemolJP Console NF,Menlo,Monospaced" size="13"/>
+        <normal>
+            <foreground color="f9e9f2"/>
+            <background color="271a22"/>
+        </normal>
+        <selected>
+            <foreground color="1b1118"/>
+            <background color="e383a8"/>
+        </selected>
+    </location_bar>
+    <status_bar>
+        <font family="PlemolJP Console NF,Menlo,Monospaced" size="12"/>
+        <foreground color="c8a4bc"/>
+        <background color="271a22"/>
+        <border color="3a2432"/>
+    </status_bar>
+    <quick_list>
+        <header>
+            <font family="PlemolJP Console NF,Menlo,Monospaced" size="13"/>
+            <foreground color="fff0f5"/>
+            <background color="8a5070"/>
+            <secondary_background color="8a5070"/>
+        </header>
+        <item>
+            <font family="PlemolJP Console NF,Menlo,Monospaced" size="13"/>
+            <normal>
+                <foreground color="f9e9f2"/>
+                <background color="1b1118"/>
+            </normal>
+            <selected>
+                <foreground color="1b1118"/>
+                <background color="e383a8"/>
+            </selected>
+        </item>
+    </quick_list>
+</theme>

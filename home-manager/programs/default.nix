@@ -48,6 +48,7 @@
       ./jetbrains
       ./jordanbaird-ice
       ./hammerspoon
+      ./mucommander
       ./notunes
       ./orion
       ./raycast
