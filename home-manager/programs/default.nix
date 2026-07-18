@@ -45,7 +45,6 @@
       ./ghostty
       ./homerow
       ./jankyborders
-      ./jetbrains
       ./jordanbaird-ice
       ./hammerspoon
       ./mucommander
