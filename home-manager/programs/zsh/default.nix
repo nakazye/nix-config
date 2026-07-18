@@ -80,6 +80,13 @@
       zle -N history-beginning-search-forward-end history-search-end
       bindkey "^P" history-beginning-search-backward-end
       bindkey "^N" history-beginning-search-forward-end
+
+      # Ctrl+M で行送信（Enter相当）。
+      # GhosttyはCtrl+MをCSI-u形式(\e[109;5u)で送るためzshが生の^Mとして
+      # 受け取れない。ここでaccept-lineに割当てる。Ghostty側でtext:\rに
+      # リマップするとIMEより先に発火し日本語変換の確定を壊すため、あえて
+      # 端末はデフォルト(IME経由)のまま、シェル側でCSI-u列を受ける。
+      bindkey "\e[109;5u" accept-line
     '';
 
     # abbreviation設定（入力時に展開され、履歴にも展開後のコマンドが残る）
