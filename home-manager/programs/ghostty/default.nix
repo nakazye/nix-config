@@ -37,8 +37,10 @@
     palette = 14=#8bd0dd
     palette = 15=#f9e9f2
 
-    # ── キー再マップ: Ctrl+I → Tab, Ctrl+M → Enter ──
+    # ── キー再マップ: Ctrl+I → Tab ──
+    # 注: Ctrl+M は再マップしない。text:アクションはIMEより先に発火するため、
+    # ctrl+m=text:\r を入れると日本語変換中でも\rが送られ確定できなくなる。
+    # 既定のキー処理に任せればIME経由で確定でき、非変換時はCtrl+M=Enterのまま。
     keybind = ctrl+i=text:\t
-    keybind = ctrl+m=text:\r
   '';
 }
