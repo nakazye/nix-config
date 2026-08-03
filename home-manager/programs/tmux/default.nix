@@ -36,8 +36,8 @@
       bind -r C-l resize-pane -R 5
 
       # コピーモード: C-@ で選択開始、C-g で抜ける
-      bind-key -T copy-mode C-@ begin-selection
-      bind-key -T copy-mode C-g cancel
+      bind-key -T copy-mode C-@ send-keys -X begin-selection
+      bind-key -T copy-mode C-g send-keys -X cancel
     '';
   };
 }
