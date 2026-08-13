@@ -32,6 +32,7 @@
       ./vips
     ]
     ++ lib.optionals (systemType != "wsl") [
+      ./_7zz
       ./alt-tab
       ./claude-desktop
       ./anki
