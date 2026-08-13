@@ -17,6 +17,15 @@
       doCheck = false;
     });
 
+    # arrow-cpp: arrow-azurefs-testが内部でAzurite(Node製エミュレータ)のテレメトリ
+    # 外部送信を行い、会社プロキシのMITM証明書で失敗する
+    # (unable to get local issuer certificate)。ネットワーク依存テストのため
+    # installCheckPhaseをスキップ。markitdown -> datasets -> pyarrow -> arrow-cpp
+    # の依存で引き込まれる。
+    arrow-cpp = prev.arrow-cpp.overrideAttrs (_oldAttrs: {
+      doInstallCheck = false;
+    });
+
     # oletools: 会社のウイルススキャンが誤検知するためインストール禁止。
     # top-level と全Pythonパッケージセットの両方で評価時にthrowさせる。
     oletools = throw "oletools はインストール禁止です（会社のウイルススキャンが誤検知するため）。CLAUDE.md参照。";
