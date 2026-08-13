@@ -8,6 +8,9 @@
   nix = {
     settings = {
       experimental-features = ["nix-command" "flakes"];
+      # ImageMagick付きEmacsのようなカスタムビルドが並列実行でOOMになるのを防ぐ
+      max-jobs = 1;
+      cores = 1;
     };
     # 週1回（日曜3時）に古い世代を自動削除
     gc = {
@@ -43,6 +46,12 @@
     XDG_DATA_HOME = "$HOME/.local/share";
     XDG_STATE_HOME = "$HOME/.local/state";
   };
+
+  # ctranslate2などC++ヘビービルド時のOOM防止用スワップ
+  swapDevices = [{
+    device = "/var/swapfile";
+    size = 8 * 1024;
+  }];
 
   system.stateVersion = nixosVersion;
 }
