@@ -48,10 +48,12 @@
   };
 
   # ctranslate2などC++ヘビービルド時のOOM防止用スワップ
-  swapDevices = [{
-    device = "/var/swapfile";
-    size = 8 * 1024;
-  }];
+  swapDevices = [
+    {
+      device = "/var/swapfile";
+      size = 8 * 1024;
+    }
+  ];
 
   system.stateVersion = nixosVersion;
 }
