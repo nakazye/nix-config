@@ -24,6 +24,7 @@
       ./markitdown
       ./mermaid-cli
       ./nixvim
+      ./rclone
       ./ripgrep
       ./tmux
       ./tree
