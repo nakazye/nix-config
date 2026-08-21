@@ -33,6 +33,7 @@
       ./vips
     ]
     ++ lib.optionals (systemType != "wsl") [
+      ./_1password-cli
       ./_7zz
       ./alt-tab
       ./claude-desktop

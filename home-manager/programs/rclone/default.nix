@@ -21,9 +21,12 @@
 
     # WSLではWindows側のop.exeを使う。Linux版のデスクトップアプリ連携はPolKit前提で
     # Windowsの1Passwordとは繋がらないため
+    # home-manager activationスクリプトはPATHを最小限に絞るため、
+    # home.packagesで入れたopは~/.nix-profile/binを明示的に見に行く必要がある
     op=""
     for candidate in \
       op \
+      "$HOME/.nix-profile/bin/op" \
       /usr/local/bin/op \
       "/mnt/c/Program Files/1Password CLI/op.exe" \
       "/mnt/c/Program Files/1Password/app/8/op.exe"; do
