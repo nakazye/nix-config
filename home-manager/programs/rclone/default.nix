@@ -51,6 +51,41 @@
     fi
     mv -f "$tokenFile.tmp" "$tokenFile"
   '';
+
+  noteMountPoint = "${config.home.homeDirectory}/note/private";
+
+  # macOSにはLinuxと違いFUSEが標準搭載されておらず、rclone mount(FUSE)を
+  # 使うにはmacFUSE等の追加インストールとシステム拡張の承認が要る。
+  # それを避けるため、macOSでは rclone serve nfs を使いローカルのNFS
+  # クライアントでマウントする（NFSはmacOS標準サポートのため追加導入不要）
+  noteNfsPort = 34049;
+
+  # launchdにはsystemdのAfter=/Requires=に相当するユニット間の依存関係が
+  # ないため、rclone serve nfsがポートをlistenし始めるまでポーリングで
+  # 待ってからmount_nfsを実行する
+  mountNoteNfs = pkgs.writeShellScript "rclone-mount-note-nfs" ''
+    set -euo pipefail
+
+    mountPoint="${noteMountPoint}"
+    port="${toString noteNfsPort}"
+
+    if /sbin/mount | grep -q " on $mountPoint "; then
+      exit 0
+    fi
+
+    deadline=$(( $(date +%s) + 60 ))
+    while ! /usr/bin/nc -z -w1 127.0.0.1 "$port"; do
+      if [ "$(date +%s)" -ge "$deadline" ]; then
+        echo "rclone: NFSサーバ(127.0.0.1:$port)への接続待ちがタイムアウトしました" >&2
+        exit 1
+      fi
+      sleep 1
+    done
+
+    mkdir -p "$mountPoint"
+    exec /sbin/mount_nfs -o vers=3,tcp,port=$port,mountport=$port,noresvport,soft,rsize=131072,wsize=131072,actimeo=120 \
+      127.0.0.1:/ "$mountPoint"
+  '';
 in {
   programs.rclone = {
     enable = true;
@@ -60,6 +95,36 @@ in {
     remotes.dropbox = {
       config.type = "dropbox";
       secrets.token = tokenFile;
+
+      # Linux: カーネル標準のFUSEでそのままマウントできる
+      mounts = lib.optionalAttrs pkgs.stdenv.hostPlatform.isLinux {
+        "Private/note/private" = {
+          enable = true;
+          mountPoint = noteMountPoint;
+        };
+      };
+
+      # macOS: FUSEの代わりにNFSサーバとして配信する（下のlaunchd.agentsで
+      # このNFSサーバを標準NFSクライアントでマウントする）
+      serve = lib.optionalAttrs pkgs.stdenv.hostPlatform.isDarwin {
+        "Private/note/private" = {
+          enable = true;
+          protocol = "nfs";
+          options.addr = "127.0.0.1:${toString noteNfsPort}";
+        };
+      };
+    };
+  };
+
+  launchd.agents = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin {
+    rclone-mount-note-nfs = {
+      enable = true;
+      config = {
+        ProgramArguments = [(toString mountNoteNfs)];
+        RunAtLoad = true;
+        StandardOutPath = "${config.home.homeDirectory}/Library/Logs/rclone/mount-note-nfs.log";
+        StandardErrorPath = "${config.home.homeDirectory}/Library/Logs/rclone/mount-note-nfs.err.log";
+      };
     };
   };
 
