@@ -1,7 +1,46 @@
 # アプリケーション本体はnix-darwinのhomebrew.casksで管理
-# ここでは設定ファイル（init.lua）のみを管理
-{...}: {
+# ここでは設定ファイル（init.lua）とログイン時の起動のみを管理
+{pkgs, ...}: let
+  hsApp = "/Applications/Hammerspoon.app";
+  hsCli = "${hsApp}/Contents/Frameworks/hs/hs";
+
+  # ログイン時に起動し、少し待ってから1回だけリロードする。
+  # 後から起動するRaycast/AeroSpace等にホットキーを奪われることがあるため、
+  # 他のログイン項目が揃った頃にリロードしてホットキーを登録し直す
+  launchAndReload = pkgs.writeShellScript "hammerspoon-launch-and-reload" ''
+    set -u
+
+    /usr/bin/open -g -a "${hsApp}"
+
+    # hs.ipcが応答するまで待つ（init.lua読み込み完了の目安）
+    deadline=$(( $(date +%s) + 60 ))
+    until "${hsCli}" -q -t 2 -c 'return true' >/dev/null 2>&1; do
+      if [ "$(date +%s)" -ge "$deadline" ]; then
+        echo "hammerspoon: IPCの応答待ちがタイムアウトしました" >&2
+        exit 1
+      fi
+      sleep 1
+    done
+
+    sleep 20
+
+    # 直接hs.reload()するとIPC応答前にLua環境が破棄されるため、タイマーで遅延実行
+    "${hsCli}" -q -c 'hs.timer.doAfter(0.5, hs.reload)'
+  '';
+in {
+  launchd.agents.hammerspoon = {
+    enable = true;
+    config = {
+      ProgramArguments = ["${launchAndReload}"];
+      RunAtLoad = true;
+      KeepAlive = false;
+    };
+  };
+
   home.file.".hammerspoon/init.lua".text = ''
+    -- launchd agentからhsコマンドでリロードするためにIPCを有効化
+    require("hs.ipc")
+
     -- CapsLock→Ctrlはnix-darwinのsystem.keyboard.remapCapsLockToControlで管理
 
     local function switchToABC()
