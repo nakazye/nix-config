@@ -62,7 +62,9 @@
 
   # launchdにはsystemdのAfter=/Requires=に相当するユニット間の依存関係が
   # ないため、rclone serve nfsがポートをlistenし始めるまでポーリングで
-  # 待ってからmount_nfsを実行する
+  # 待ってからmount_nfsを実行する。
+  # serveの再起動やスリープ復帰でマウントが壊れることがあるため、定期実行して
+  # 応答しないマウントは強制アンマウントしてから張り直す
   mountNoteNfs = pkgs.writeShellScript "rclone-mount-note-nfs" ''
     set -euo pipefail
 
@@ -70,11 +72,17 @@
     port="${toString noteNfsPort}"
 
     if /sbin/mount | grep -q " on $mountPoint "; then
-      exit 0
+      # Stale NFS file handle等で読めない場合だけ張り直す。
+      # softマウントでもサーバ停止中は応答が遅れるためtimeoutで打ち切る
+      if ${pkgs.coreutils}/bin/timeout 10 /bin/ls "$mountPoint" >/dev/null 2>&1; then
+        exit 0
+      fi
+      echo "rclone: $mountPoint が応答しないため再マウントします" >&2
+      /sbin/umount -f "$mountPoint"
     fi
 
     deadline=$(( $(date +%s) + 60 ))
-    while ! /usr/bin/nc -z -w1 127.0.0.1 "$port"; do
+    while ! /usr/bin/nc -z -w1 127.0.0.1 "$port" >/dev/null 2>&1; do
       if [ "$(date +%s)" -ge "$deadline" ]; then
         echo "rclone: NFSサーバ(127.0.0.1:$port)への接続待ちがタイムアウトしました" >&2
         exit 1
@@ -111,6 +119,10 @@ in {
           enable = true;
           protocol = "nfs";
           options.addr = "127.0.0.1:${toString noteNfsPort}";
+          # 既定(memory)ではserve再起動(switch時など)でNFSハンドルが失われ、
+          # マウント中のクライアントが Stale NFS file handle になる。
+          # ディスクに保持して再起動をまたいでもハンドルを維持する
+          options.nfs-cache-type = "disk";
         };
       };
     };
@@ -122,6 +134,8 @@ in {
       config = {
         ProgramArguments = [(toString mountNoteNfs)];
         RunAtLoad = true;
+        # 壊れたマウントを自動で張り直すため定期的に状態を確認する
+        StartInterval = 60;
         StandardOutPath = "${config.home.homeDirectory}/Library/Logs/rclone/mount-note-nfs.log";
         StandardErrorPath = "${config.home.homeDirectory}/Library/Logs/rclone/mount-note-nfs.err.log";
       };
