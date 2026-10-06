@@ -16,6 +16,10 @@
     # Homebrew casks as Nix packages (macOS only)
     brew-nix.url = "github:BatteredBunny/brew-nix";
     brew-nix.inputs.nixpkgs.follows = "nixpkgs";
+    # brew-nix本家のlockはbrew-apiが古いままなので、自前で追従させる
+    brew-nix.inputs.brew-api.follows = "brew-api";
+    brew-api.url = "github:BatteredBunny/brew-api";
+    brew-api.flake = false;
 
     # Nixvim - Neovim configuration in Nix
     nixvim.url = "github:nix-community/nixvim/nixos-26.05";

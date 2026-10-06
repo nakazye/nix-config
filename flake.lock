@@ -3,11 +3,11 @@
     "brew-api": {
       "flake": false,
       "locked": {
-        "lastModified": 1787629879,
-        "narHash": "sha256-Jj0HASSXtVJShA27rNI/UAF/xEsdySFNs/+e2hw0+kA=",
+        "lastModified": 1791187962,
+        "narHash": "sha256-Tat/Y5zN6eQKCGCFkZTHaJ+W8yMCWHtBFQ+WioVRc5o=",
         "owner": "BatteredBunny",
         "repo": "brew-api",
-        "rev": "245947c0b920cbe83f4003bb7c6be737352c8314",
+        "rev": "c4af21852fef85688c06073d775b1a8530c567d5",
         "type": "github"
       },
       "original": {
@@ -18,7 +18,9 @@
     },
     "brew-nix": {
       "inputs": {
-        "brew-api": "brew-api",
+        "brew-api": [
+          "brew-api"
+        ],
         "nix-darwin": "nix-darwin",
         "nixpkgs": [
           "nixpkgs"
@@ -231,6 +233,7 @@
     },
     "root": {
       "inputs": {
+        "brew-api": "brew-api",
         "brew-nix": "brew-nix",
         "home-manager": "home-manager",
         "nix-darwin": "nix-darwin_2",
