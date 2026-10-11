@@ -20,6 +20,7 @@
       ./gitstatus
       ./glibtool
       ./gnumake
+      ./graphviz
       ./libtool
       ./markitdown
       ./mermaid-cli
