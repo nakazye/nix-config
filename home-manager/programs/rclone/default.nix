@@ -29,7 +29,9 @@
       "$HOME/.nix-profile/bin/op" \
       /usr/local/bin/op \
       "/mnt/c/Program Files/1Password CLI/op.exe" \
-      "/mnt/c/Program Files/1Password/app/8/op.exe"; do
+      "/mnt/c/Program Files/1Password/app/8/op.exe" \
+      /mnt/c/Users/*/AppData/Local/Microsoft/WinGet/Links/op.exe \
+      /mnt/c/Users/*/AppData/Local/Microsoft/WinGet/Packages/AgileBits.1Password.CLI_*/op.exe; do
       if command -v "$candidate" >/dev/null 2>&1; then
         op="$candidate"
         break
