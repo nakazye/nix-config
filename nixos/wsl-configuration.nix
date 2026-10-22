@@ -9,9 +9,6 @@
   nix = {
     settings = {
       experimental-features = ["nix-command" "flakes"];
-      # ImageMagick付きEmacsのようなカスタムビルドが並列実行でOOMになるのを防ぐ
-      max-jobs = 1;
-      cores = 1;
     };
     # 週1回（日曜3時）に古い世代を自動削除
     gc = {
@@ -37,7 +34,7 @@
   environment.systemPackages = with pkgs; [
     #    anthy
     # スタートメニューのエントリ経由でタスクバーにピン留めするため(home-managerと同じビルド)
-    outputs.packages.${pkgs.stdenv.hostPlatform.system}.emacs-custom
+    emacs
   ];
 
   # GUIアプリの.desktopをWSLgに渡し、Windowsのスタートメニューに登録する

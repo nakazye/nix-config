@@ -1,7 +1,6 @@
 {pkgs, ...}: {
   home.packages = [
-    pkgs.emacs-custom
+    pkgs.emacs
     pkgs.imagemagick
-    pkgs.libgccjit
   ];
 }
