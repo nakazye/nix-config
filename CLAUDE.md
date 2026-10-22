@@ -8,13 +8,13 @@ Nixフレークベースのマルチプラットフォーム設定リポジト�
 |----------|------|----------------|
 | `privateMac` | 個人用macOS (ARM64) | `darwin-rebuild switch --flake ~/nix-config#privateMac` |
 | `businessMac` | 業務用macOS (ARM64) | `darwin-rebuild switch --flake ~/nix-config#businessMac --impure` |
-| `wsl-nixos` | NixOS on WSL (x86_64) | `sudo nixos-rebuild switch --flake /home/nixos/.local/share/nix-config#wsl-nixos` |
+| `wsl-nixos` | NixOS on WSL (x86_64) | `sudo nixos-rebuild switch --flake ~/nix-config#wsl-nixos` |
 
 | Home Manager | コマンド |
 |--------------|----------|
 | `nakazye@privateMac` | `home-manager switch --flake ~/nix-config#nakazye@privateMac` |
 | `businessMac` | `home-manager switch --flake ~/nix-config#businessMac --impure` |
-| `nixos@wsl-nixos` | `home-manager switch --flake /home/nixos/.local/share/nix-config#nixos@wsl-nixos` |
+| `nixos@wsl-nixos` | `home-manager switch --flake ~/nix-config#nixos@wsl-nixos` |
 
 ## 開発コマンド
 
