@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  outputs,
   nixosVersion,
   ...
 }: {
@@ -35,7 +36,12 @@
 
   environment.systemPackages = with pkgs; [
     #    anthy
+    # スタートメニューのエントリ経由でタスクバーにピン留めするため(home-managerと同じビルド)
+    outputs.packages.${pkgs.stdenv.hostPlatform.system}.emacs-custom
   ];
+
+  # GUIアプリの.desktopをWSLgに渡し、Windowsのスタートメニューに登録する
+  wsl.startMenuLaunchers = true;
 
   programs.zsh.enable = true;
   users.defaultUserShell = pkgs.zsh;
