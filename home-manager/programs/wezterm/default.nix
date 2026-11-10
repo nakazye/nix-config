@@ -1,4 +1,64 @@
-{pkgs, ...}: {
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
+  signingIdentity = "Home Manager Code Signing";
+  appDir = "$HOME/${config.targets.darwin.copyApps.directory}/WezTerm.app";
+  setupScript = pkgs.writeShellScriptBin "wezterm-codesign-setup" ''
+    set -euo pipefail
+    identities="$(/usr/bin/security find-identity -p codesigning)"
+    if [[ "$identities" == *'"${signingIdentity}"'* ]]; then
+      echo "identity \"${signingIdentity}\" already exists" >&2
+      exit 0
+    fi
+    tmp="$(/usr/bin/mktemp -d)"
+    trap '/bin/rm -rf "$tmp"' EXIT
+    /usr/bin/openssl req -x509 -newkey rsa:2048 -nodes -days 3650 \
+      -subj "/CN=${signingIdentity}" \
+      -addext "keyUsage=critical,digitalSignature" \
+      -addext "extendedKeyUsage=critical,codeSigning" \
+      -keyout "$tmp/key.pem" -out "$tmp/cert.pem" 2>/dev/null
+    /usr/bin/openssl pkcs12 -export -inkey "$tmp/key.pem" -in "$tmp/cert.pem" \
+      -out "$tmp/cert.p12" -passout pass:tmp
+    /usr/bin/security import "$tmp/cert.p12" -k "$HOME/Library/Keychains/login.keychain-db" \
+      -P tmp -T /usr/bin/codesign
+    echo "created identity \"${signingIdentity}\"." >&2
+    echo "next: run home-manager switch, then re-grant Full Disk Access and App Management to WezTerm once." >&2
+  '';
+in {
+  home.packages = [setupScript];
+
+  # nixpkgsのWezTermはアドホック署名で、指定要件がcdhashになる。
+  # 更新でバイナリが変わるとTCC（フルディスクアクセス・アプリ管理）の許可が外れるため、
+  # ログインキーチェーンの自己署名証明書で署名し直して指定要件を固定する。
+  # 証明書はマシンごとに作成し、無いマシンではアドホック署名のまま何もしない
+  home.activation.weztermCodesign = lib.hm.dag.entryAfter ["copyApps"] ''
+    weztermIdentity="$(/usr/bin/security find-identity -p codesigning 2>/dev/null \
+      | /usr/bin/awk 'index($0, "\"${signingIdentity}\"") {print $2; exit}')"
+    # バンドルのルートに実行ファイルが並ぶ構成のため、バンドル内のまま署名すると
+    # バンドル全体の署名扱いになり失敗する。外にコピーして署名してから戻す
+    weztermResign() {
+      local tmp rc
+      tmp="$(mktemp -d)" || return 1
+      run cp "${appDir}/wezterm-gui" "$tmp/wezterm-gui" \
+        && run /usr/bin/codesign --force --sign "$weztermIdentity" "$tmp/wezterm-gui" \
+        && run mv -f "$tmp/wezterm-gui" "${appDir}/wezterm-gui"
+      rc=$?
+      rm -rf "$tmp"
+      return $rc
+    }
+    if [[ ! -d "${appDir}" ]]; then
+      :
+    elif [[ -z "$weztermIdentity" ]]; then
+      echo "skipping WezTerm re-signing: identity \"${signingIdentity}\" not found" >&2
+      echo "  to keep TCC permissions across updates, run: wezterm-codesign-setup" >&2
+    elif ! weztermResign; then
+      echo "warning: failed to re-sign WezTerm; TCC permissions may be reset" >&2
+    fi
+  '';
+
   programs.wezterm = {
     enable = true;
     # シェル統合を無効化（他のターミナルでもロードされて遅延の原因になる）
