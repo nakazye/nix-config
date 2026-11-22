@@ -147,6 +147,22 @@
 
       zstyle ':completion:*:default' menu select=2
       zstyle ':completion:*' verbose yes
+      # コマンド位置の補完（既定は_autocd）にzsh-abbrのabbreviation名を加える。
+      # 補完後にSpace/Enterでzsh-abbrが展開する。
+      # 補完による自動の空白付加ではabbrが展開されないため、-S ""で付けない。
+      # キーは引用符付き（"nixswitch"）で格納されているため(Q)で外す。
+      # 同じ補完関数内で候補を足すので、該当があれば_approximate等の
+      # 修正候補に流れず一意に補完される。
+      _abbr_command() {
+        local -a expl names
+        local ret=1
+        names=(''${(Q)''${(k)ABBR_REGULAR_USER_ABBREVIATIONS}})
+        (( ''${#names} )) && _wanted abbreviations expl 'abbreviation' compadd -S "" -a names && ret=0
+        _autocd && ret=0
+        return ret
+      }
+      compdef _abbr_command -command-
+
       zstyle ':completion:*' completer _expand _complete _match _prefix _approximate _list _history
       zstyle ':completion:*:messages' format '%F{YELLOW}%d'$DEFAULT
       zstyle ':completion:*:warnings' format '%F{RED}No matches for: %F{YELLOW}%d'$DEFAULT
