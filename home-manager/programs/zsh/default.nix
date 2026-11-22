@@ -102,10 +102,10 @@
           rep = "cd $(ghq list -p | fzf -e)";
         }
         (lib.mkIf (systemType == "businessMac") {
-          nixswitch = "sudo darwin-rebuild switch --flake ~/nix-config#businessMac --impure && home-manager switch --flake ~/nix-config#businessMac --impure";
+          nixswitch = "nix flake update brew-api --flake ~/nix-config && sudo darwin-rebuild switch --flake ~/nix-config#businessMac --impure && home-manager switch --flake ~/nix-config#businessMac --impure";
         })
         (lib.mkIf (systemType == "privateMac") {
-          nixswitch = "sudo darwin-rebuild switch --flake ~/nix-config#privateMac && home-manager switch --flake ~/nix-config#nakazye@privateMac";
+          nixswitch = "nix flake update brew-api --flake ~/nix-config && sudo darwin-rebuild switch --flake ~/nix-config#privateMac && home-manager switch --flake ~/nix-config#nakazye@privateMac";
         })
         (lib.mkIf (systemType == "wsl") {
           nixswitch = "sudo nixos-rebuild switch --flake ~/nix-config#wsl-nixos && home-manager switch --flake ~/nix-config#nixos@wsl-nixos";
