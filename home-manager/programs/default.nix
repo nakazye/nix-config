@@ -9,6 +9,7 @@
       ./chezmoi
       ./claude-code
       ./cmake
+      ./codex
       ./coreutils
       ./direnv
       ./emacs
@@ -42,6 +43,7 @@
       ./chatgpt
       ./chawan
       ./cmux
+      ./codex-app
       ./copilot
       ./discord
       ./doll
